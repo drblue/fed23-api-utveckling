@@ -21,3 +21,7 @@ console.log("Cheerio!");
 
 console.log("Absolute path to directory for this file:", __dirname);
 console.log("Absolute path to this file:", __filename);
+
+console.log("Such reload");
+console.log("Very fast");
+console.log("Much wow!");
