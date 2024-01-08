@@ -12,7 +12,16 @@ const app = express();
 // Listen for incoming GET request to "/"
 app.get("/", (req, res) => {
 	console.log("Someone request to GET my (g)root");
-	res.send("Oh, hi there 😊");
+	res.send({
+		message: "Oh, hi there 😊",
+	});
+});
+
+// Listen for incoming POST request to "/"
+app.post("/", (req, res) => {
+	res.send({
+		message: "I'm no mailbox 😡",
+	});
 });
 
 // Listen for incoming GET request to "/coffee"
