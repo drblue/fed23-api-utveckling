@@ -17,6 +17,17 @@ app.get("/", (req, res) => {
 	});
 });
 
+// Listen for incoming GET request to "/joke"
+app.get("/joke", (req, res) => {
+	// Somehow get all oneliners from `data/oneliners.json`
+	// Get a random oneliner from the array of oneliners
+	// Respond with an object with the oneliner as the `joke` attribute
+
+	res.send({
+		joke: "I'm batman *shhh*",
+	});
+});
+
 // Listen for incoming POST request to "/"
 app.post("/", (req, res) => {
 	res.send({
