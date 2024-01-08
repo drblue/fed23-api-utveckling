@@ -17,7 +17,38 @@ app.get("/", (req, res) => {
 
 // Listen for incoming GET request to "/coffee"
 app.get("/coffee", (req, res) => {
-	res.send("Is good for you!");
+	res.send({
+		can_have_too_much: false,
+		is_good_for_you: true,
+		message: "Lolcats are funny",
+		nicknames: [
+			"coffee",
+			"life-giving liquid",
+			"black gold",
+		],
+	});
+});
+
+// Listen for incoming GET request to "/users"
+app.get("/users", (req, res) => {
+	res.send([
+		{
+			username: "johan",
+			profilePicture: "https://thumb.ac-illust.com/3c/3cea0e36d984553348ca536f07ca7617_t.jpeg",
+		},
+		{
+			username: "pelle",
+			profilePicture: null,
+		},
+		{
+			username: "kajsa",
+			profilePicture: null,
+		},
+		{
+			username: "mimmi",
+			profilePicture: null,
+		},
+	]);
 });
 
 // Start listening for incoming requests on port 3000
