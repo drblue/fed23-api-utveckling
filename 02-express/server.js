@@ -14,6 +14,9 @@ const PORT = 3000;
 // Create a new Express app
 const app = express();
 
+// Parse any incoming JSON
+app.use(express.json());
+
 // Log information about all incoming requests using morgan
 app.use(morgan("dev"));
 
@@ -133,6 +136,20 @@ app.get("/users/:userId", (req, res) => {
 
 	// Respond with user
 	res.send(user);
+});
+
+// POST /users
+// Create a new user
+app.post("/users", (req, res) => {
+	console.log("Create user?");
+
+	// Dump body
+	console.log("req.body:", req.body);
+	// console.log("username:", req.body.username);
+	// console.log("name:", req.body.name);
+	// console.log("email:", req.body.email);
+
+	res.send({});
 });
 
 // Catch any requests that does not have a matching handler
