@@ -6,11 +6,15 @@
 const express = require("express");
 const _ = require("lodash");
 const fs = require("node:fs/promises");
+const morgan = require("morgan");
 const oneliners = require("./data/oneliners.json");
 const PORT = 3000;
 
 // Create a new Express app
 const app = express();
+
+// Log information about all incoming requests using morgan
+app.use(morgan("dev"));
 
 /**
  * Log notice about all incoming requests (date + time, HTTP Verb, URL)
@@ -22,12 +26,12 @@ const app = express();
  * 2024-01-10 11:07:37 GET /joke
  * 2024-01-10 11:08:43 POST /
  */
-app.use((req, res, next) => {
-	const now = new Date();
+// app.use((req, res, next) => {
+// 	const now = new Date();
 
-	console.log(`${now.toLocaleString()} - ${req.method} ${req.path}`);
-	next();  // Pass request along
-});
+// 	console.log(`${now.toLocaleString()} - ${req.method} ${req.path}`);
+// 	next();  // Pass request along
+// });
 
 // Listen for incoming GET request to "/"
 app.get("/", (req, res) => {
