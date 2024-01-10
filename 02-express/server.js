@@ -99,9 +99,40 @@ app.get("/coffee", (req, res) => {
 	});
 });
 
-// Listen for incoming GET request to "/users"
+// GET all users
 app.get("/users", (req, res) => {
 	res.send(users);
+});
+
+// GET a single user
+// GET /users/42
+// GET /users/1337
+// GET /users/apa
+app.get("/users/:userId", (req, res) => {
+	// Cast userId parameter to a Number
+	const userId = Number(req.params.userId);
+
+	// That's not a number...
+	if (!userId) {
+		res.status(404).send({
+			message: "Invalid User ID",
+		});
+		return;
+	}
+
+	// Find user in users array
+	const user = users.find(user => user.id === userId);
+
+	// No user was found
+	if (!user) {
+		res.status(404).send({
+			message: "User Not Found",
+		});
+		return;
+	}
+
+	// Respond with user
+	res.send(user);
 });
 
 // Catch any requests that does not have a matching handler
