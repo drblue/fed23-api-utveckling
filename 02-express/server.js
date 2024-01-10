@@ -8,6 +8,7 @@ const _ = require("lodash");
 const fs = require("node:fs/promises");
 const morgan = require("morgan");
 const oneliners = require("./data/oneliners.json");
+const users = require("./data/users.json");
 const PORT = 3000;
 
 // Create a new Express app
@@ -100,24 +101,7 @@ app.get("/coffee", (req, res) => {
 
 // Listen for incoming GET request to "/users"
 app.get("/users", (req, res) => {
-	res.send([
-		{
-			username: "johan",
-			profilePicture: "https://thumb.ac-illust.com/3c/3cea0e36d984553348ca536f07ca7617_t.jpeg",
-		},
-		{
-			username: "pelle",
-			profilePicture: null,
-		},
-		{
-			username: "kajsa",
-			profilePicture: null,
-		},
-		{
-			username: "mimmi",
-			profilePicture: null,
-		},
-	]);
+	res.send(users);
 });
 
 // Catch any requests that does not have a matching handler
