@@ -24,8 +24,7 @@ app.get("/joke", (req, res) => {
 	// Somehow get all oneliners from `data/oneliners.json`
 	// Get a random oneliner from the array of oneliners
 	// Respond with an object with the oneliner as the `joke` attribute
-	const i = _.random(oneliners.length - 1);
-	const joke = oneliners[i];
+	const joke = _.sample(oneliners);
 
 	res.send({
 		joke,  // joke: joke
