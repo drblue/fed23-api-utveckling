@@ -120,6 +120,14 @@ app.get("/users", (req, res) => {
 	]);
 });
 
+// Catch any requests that does not have a matching handler
+app.use((req, res) => {
+	// Respond with 404 and a message in JSON-format
+	res.status(404).send({
+		message: "Not Found",
+	});
+});
+
 // Start listening for incoming requests on port 3000
 app.listen(PORT, () => {
 	// Will be invoked once the server has started listening
