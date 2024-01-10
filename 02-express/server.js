@@ -4,6 +4,7 @@
 
 // Require express
 const express = require("express");
+const oneliners = require("./data/oneliners.json");
 const PORT = 3000;
 
 // Create a new Express app
@@ -22,9 +23,11 @@ app.get("/joke", (req, res) => {
 	// Somehow get all oneliners from `data/oneliners.json`
 	// Get a random oneliner from the array of oneliners
 	// Respond with an object with the oneliner as the `joke` attribute
+	const i = Math.floor(Math.random() * oneliners.length);
+	const joke = oneliners[i];
 
 	res.send({
-		joke: "I'm batman *shhh*",
+		joke,  // joke: joke
 	});
 });
 
