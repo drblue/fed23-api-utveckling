@@ -15,12 +15,17 @@ const app = express();
 /**
  * Log notice about all incoming requests (date + time, HTTP Verb, URL)
  *
+ * We CAN use req.url to also get the query string of the URL, but it is not
+ * native to Express.
+ *
  * Example:
  * 2024-01-10 11:07:37 GET /joke
  * 2024-01-10 11:08:43 POST /
  */
 app.use((req, res, next) => {
-	console.log("*** Someone requested something ^^");
+	const now = new Date();
+
+	console.log(`${now.toLocaleString()} - ${req.method} ${req.path}`);
 	next();  // Pass request along
 });
 
