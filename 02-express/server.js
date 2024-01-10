@@ -12,9 +12,20 @@ const PORT = 3000;
 // Create a new Express app
 const app = express();
 
+/**
+ * Log notice about all incoming requests (date + time, HTTP Verb, URL)
+ *
+ * Example:
+ * 2024-01-10 11:07:37 GET /joke
+ * 2024-01-10 11:08:43 POST /
+ */
+app.use((req, res, next) => {
+	console.log("*** Someone requested something ^^");
+	next();  // Pass request along
+});
+
 // Listen for incoming GET request to "/"
 app.get("/", (req, res) => {
-	console.log("Someone request to GET my (g)root");
 	res.send({
 		message: "Oh, hi there 😊",
 	});
