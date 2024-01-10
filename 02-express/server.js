@@ -5,6 +5,7 @@
 // Require express
 const express = require("express");
 const _ = require("lodash");
+const fs = require("node:fs/promises");
 const oneliners = require("./data/oneliners.json");
 const PORT = 3000;
 
@@ -29,6 +30,31 @@ app.get("/joke", (req, res) => {
 	res.send({
 		joke,  // joke: joke
 	});
+});
+
+/**
+ * GET /badjoke
+ */
+app.get("/badjoke", async (req, res) => {
+	try {
+		const rawFile = await fs.readFile("./data/oneliners.txt", "utf-8");
+		const jokes = rawFile.split("\n");
+
+		// Get a random item from the array `jokes`
+		const joke = _.sample(jokes);
+
+		// Respond with a object containing the oneliner in the `joke` attribute
+		res.send({
+			joke,
+		});
+
+	} catch (err) {
+		console.error("ERROR! ERROR! Could not find ./data/oneliner.txt!");
+		// Let requester know that something has gone wrong
+		res.status(500).send({
+			message: "Could not read file with oneliners",
+		});
+	}
 });
 
 // Listen for incoming POST request to "/"
