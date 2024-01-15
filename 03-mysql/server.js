@@ -126,6 +126,27 @@ app.post("/phones", async (req, res) => {
 });
 
 /**
+ * PATCH /phones/:phoneId
+ *
+ * Update an existing phone
+ */
+app.patch("/phones/:phoneId", async (req, res) => {
+	const db = await connection;
+
+	try {
+		const result = await db.query("UPDATE phones SET ? WHERE id = ?", [req.body, req.params.phoneId]);
+
+	} catch (err) {
+		res.status(400).send({
+			message: "Y U SEND BAD DATA?!",
+		})
+		return;
+	}
+
+	res.send(req.body);
+});
+
+/**
  * GET /users
  *
  * Get all users
