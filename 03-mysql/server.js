@@ -78,6 +78,30 @@ app.get("/phones/:phoneId", async (req, res) => {
 });
 
 /**
+ * POST /phones
+ *
+ * Create a new phone
+ */
+app.post("/phones", async (req, res) => {
+	console.log("Incoming!", req.body);
+
+	const db = await connection;
+	const [result] = await db.query(`INSERT INTO phones SET manufacturer = ?, model = ?, imei = ?`, [
+		req.body.manufacturer,
+		req.body.model,
+		req.body.imei,
+	]);
+
+	console.log("Result:", result);
+
+	// Send back the received data and append the id of the newly created record
+	res.status(201).send({
+		...req.body,
+		id: result.insertId,
+	});
+});
+
+/**
  * GET /users
  *
  * Get all users

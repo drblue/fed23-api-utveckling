@@ -114,7 +114,13 @@ SELECT * FROM `employees` LIMIT 3 OFFSET 3;
 ### Skapa employee "Bus Bengt"
 
 ```sql
-INSERT INTO employees (`name`, `title`, `email`, `salary`) VALUES ("Bus Bengt", "Buspojke", "bengan@bus.nu", 420000);
+INSERT INTO employees
+  (`name`, `title`, `email`, `salary`)
+VALUES
+  ("Bus Bengt", "Buspojke", "bengan@bus.nu", 420000);
+
+INSERT INTO employees
+  SET `name` = "Bus Bengt", `title` = "Buspojke", `email` = "bengan@bus.nu", `salary` = 420000;
 ```
 
 ## Uppdatera data
