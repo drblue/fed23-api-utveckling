@@ -86,9 +86,28 @@ app.post("/phones", async (req, res) => {
 	console.log("Incoming!", req.body);
 	const { manufacturer, model, imei } = req.body;
 
-	// STEP 1: Check that all required data is present, otherwise fail with HTTP 400
+	// Check that all required data is present and of correct
+	// datatype, otherwise fail with HTTP 400
+	if (!manufacturer || typeof manufacturer !== "string") {
+		res.status(400).send({
+			message: "manufacturer is missing, not a string or empty",
+		});
+		return;
+	}
 
-	// STEP 2: Check that the incoming data is of the correct datatype
+	if (!model || typeof model !== "string") {
+		res.status(400).send({
+			message: "model is missing, not a string or empty",
+		});
+		return;
+	}
+
+	if (!imei || typeof imei !== "string") {
+		res.status(400).send({
+			message: "imei is missing, not a string or empty",
+		});
+		return;
+	}
 
 	const db = await connection;
 	const [result] = await db.query(`INSERT INTO phones SET ?`, {
