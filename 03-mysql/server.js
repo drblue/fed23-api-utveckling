@@ -41,6 +41,43 @@ app.get("/", (req, res) => {
 });
 
 /**
+ * GET /phones
+ *
+ * Get all phones
+ */
+app.get("/phones", async (req, res) => {
+	const db = await connection;
+	const [rows] = await db.query("SELECT * FROM phones");
+
+	// Respond with rows
+	res.send(rows);
+});
+
+/**
+ * GET /phones/:phoneId
+ *
+ * Get a single phone
+ */
+app.get("/phones/:phoneId", async (req, res) => {
+	const phoneId = Number(req.params.phoneId);
+
+	const db = await connection;
+	const [rows] = await db.query("SELECT * FROM phones WHERE id = ?", [phoneId]);
+
+	// guard clause
+	if (!rows.length) {
+		// Respond with 404 and a message in JSON-format
+		res.status(404).send({
+			message: "Phone Not Found",
+		});
+		return;
+	}
+
+	// Respond with rows
+	res.send(rows[0]);
+});
+
+/**
  * GET /users
  *
  * Get all users
@@ -70,7 +107,7 @@ app.get("/users/:userId", async (req, res) => {
 
 	const db = await connection;
 	// SELECT * FROM users WHERE id = 2
-	const [rows] = await db.query("SELECT * FROM users WHERE id = " + userId);
+	const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [userId]);
 
 	// guard clause
 	if (!rows.length) {
