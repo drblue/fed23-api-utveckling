@@ -86,6 +86,10 @@ app.post("/phones", async (req, res) => {
 	console.log("Incoming!", req.body);
 	const { manufacturer, model, imei } = req.body;
 
+	// STEP 1: Check that all required data is present, otherwise fail with HTTP 400
+
+	// STEP 2: Check that the incoming data is of the correct datatype
+
 	const db = await connection;
 	const [result] = await db.query(`INSERT INTO phones SET ?`, {
 		manufacturer,
