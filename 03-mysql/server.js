@@ -84,13 +84,14 @@ app.get("/phones/:phoneId", async (req, res) => {
  */
 app.post("/phones", async (req, res) => {
 	console.log("Incoming!", req.body);
+	const { manufacturer, model, imei } = req.body;
 
 	const db = await connection;
-	const [result] = await db.query(`INSERT INTO phones SET manufacturer = ?, model = ?, imei = ?`, [
-		req.body.manufacturer,
-		req.body.model,
-		req.body.imei,
-	]);
+	const [result] = await db.query(`INSERT INTO phones SET ?`, {
+		manufacturer,
+		model,
+		imei,
+	});
 
 	console.log("Result:", result);
 
