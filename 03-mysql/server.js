@@ -134,7 +134,13 @@ app.patch("/phones/:phoneId", async (req, res) => {
 	const db = await connection;
 
 	try {
-		const result = await db.query("UPDATE phones SET ? WHERE id = ?", [req.body, req.params.phoneId]);
+		const [result] = await db.query("UPDATE phones SET ? WHERE id = ?", [req.body, req.params.phoneId]);
+		if (!result.affectedRows) {
+			res.status(404).send({
+				message: "Phone Not Found",
+			})
+			return;
+		}
 
 	} catch (err) {
 		res.status(400).send({
