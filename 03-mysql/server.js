@@ -40,7 +40,11 @@ app.get("/", (req, res) => {
 	});
 });
 
-// GET all users
+/**
+ * GET /users
+ *
+ * Get all users
+ */
 app.get("/users", async (req, res) => {
 	// Wait for connection to be established
 	const db = await connection;
@@ -54,6 +58,31 @@ app.get("/users", async (req, res) => {
 
 	// Respond with rows
 	res.send(rows);
+});
+
+/**
+ * GET /users/:userId
+ *
+ * Get a single user
+ */
+app.get("/users/:userId", async (req, res) => {
+	const userId = Number(req.params.userId);
+
+	const db = await connection;
+	// SELECT * FROM users WHERE id = 2
+	const [rows] = await db.query("SELECT * FROM users WHERE id = " + userId);
+
+	// guard clause
+	if (!rows.length) {
+		// Respond with 404 and a message in JSON-format
+		res.status(404).send({
+			message: "User Not Found",
+		});
+		return;
+	}
+
+	// Respond with rows
+	res.send(rows[0]);
 });
 
 // Catch any requests that does not have a matching handler
