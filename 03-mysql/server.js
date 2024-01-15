@@ -153,6 +153,35 @@ app.patch("/phones/:phoneId", async (req, res) => {
 });
 
 /**
+ * DELETE /phones/:phoneId
+ *
+ * Destroy an existing phone
+ */
+app.delete("/phones/:phoneId", async (req, res) => {
+	const db = await connection;
+
+	try {
+		const [result] = await db.query("DELETE FROM phones WHERE id = ?", [req.params.phoneId]);
+		if (!result.affectedRows) {
+			res.status(404).send({
+				message: "Y U DELETE ALREADY DELETED PHONE?!",
+			})
+			return;
+		}
+
+	} catch (err) {
+		res.status(400).send({
+			message: "Y U SEND BAD DATA?!",
+		})
+		return;
+	}
+
+	res.send({
+		message: "K.",
+	});
+});
+
+/**
  * GET /users
  *
  * Get all users
