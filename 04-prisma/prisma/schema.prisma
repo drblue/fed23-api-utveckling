@@ -13,6 +13,7 @@ model phones {
   model        String @db.VarChar(255)
   imei         String @db.VarChar(15)
   user_id      Int?   @db.UnsignedInt
+  user         users? @relation(fields: [user_id], references: [id])
 }
 
 model users {
@@ -20,4 +21,5 @@ model users {
   name  String @db.VarChar(255)
   title String @db.VarChar(255)
   email String @db.VarChar(255)
+  phones phones[]
 }

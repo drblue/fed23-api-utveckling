@@ -53,6 +53,7 @@ async function main() {
 	console.log("First User:", first_user);
 	*/
 
+	/*
 	// Get the user with ID 4
 	const neo = await prisma.users.findUnique({
 		where: {
@@ -60,8 +61,36 @@ async function main() {
 		},
 	});
 	console.log("Neo:", neo);
+	*/
 
+	/*
+	// Get the user with ID 4 and their phone (if they have any)
+	const user = await prisma.users.findUnique({
+		where: {
+			id: 4,
+		},
+	});
+	console.log("User:", user);
+	if (user) {
+		const user_phones = await prisma.phones.findMany({
+			where: {
+				user_id: user.id,
+			},
+		});
+		console.log("User phones:", user_phones);
+	}
+	*/
 
+	// Get the user with ID 4 and their phone (if they have any)
+	const neo_with_phone = await prisma.users.findUnique({
+		where: {
+			id: 5,
+		},
+		include: {
+			phones: true,
+		},
+	});
+	console.log("Neo with phone 🍌:", neo_with_phone);
 }
 
 main()
