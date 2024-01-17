@@ -19,6 +19,7 @@ async function main() {
 	console.log("Phones:", phones);
 	*/
 
+	/*
 	// Get all users and console.log them
 	const users = await prisma.users.findMany({
 		// where: {
@@ -40,6 +41,27 @@ async function main() {
 		skip: 4,  // OFFSET 4
 	});
 	console.log("Users:", users);
+	*/
+
+	/*
+	// Get the _first_ user that matches our query
+	const first_user = await prisma.users.findFirst({
+		where: {
+			name: "Leeloo",
+		},
+	});
+	console.log("First User:", first_user);
+	*/
+
+	// Get the user with ID 4
+	const neo = await prisma.users.findUnique({
+		where: {
+			id: 4,
+		},
+	});
+	console.log("Neo:", neo);
+
+
 }
 
 main()
