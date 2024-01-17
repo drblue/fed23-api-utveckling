@@ -111,3 +111,18 @@ main()
     process.exit(1);
   });
 ```
+
+## Install express, morgan, dotenv. Also types for express and morgan
+
+```bash
+npm install express morgan dotenv
+npm install @types/express @types/morgan --save-dev
+```
+
+## Copy files
+
+Copy `src/app.ts` and `src/prisma.ts` along with `server.ts` from the Git-repo.
+
+## Edit `package.json`
+
+Change the dev-script to run `server.ts` instead of `script.ts`.
