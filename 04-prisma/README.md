@@ -59,3 +59,55 @@ Replace the `"scripts"`-section with the following content:
     "dev": "nodemon script.ts"
   },
 ```
+
+## (Import `fed23_phones.sql)
+
+If you haven't already done so, browse to phpMyAdmin and create a new database.
+Then click on "Import" and browse to the `fed23_phones.sql` in this repo and
+then click on "Import" at the bottom of the page.
+
+## Introspect the database
+
+Reads the tables, columns and datatypes from the existing database and updates
+`prisma/schema.prisma` with models for each table.
+
+```bash
+npx prisma db pull
+```
+
+_If you get a "Error: Prisma schema validation", then you're probably missing
+the `.env` file and need to create it. Copy the contents from `.env.example`
+and update according to your local environment._
+
+## Optionally format the schema-file
+
+If you're a caveman (or cavewoman) and does not indent your code properly, you
+can run the following command to format your schema-file (as well as lint it).
+
+```bash
+npx prisma format
+```
+
+## Create `script.ts`
+
+Create a new file named `script.ts` and paste the following content into the file:
+
+```ts
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+async function main() {
+  // ... you will write your Prisma Client queries here
+  console.log("It works?");
+}
+
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
+```
