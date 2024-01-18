@@ -6,3 +6,14 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Author {
+  id   Int    @id @default(autoincrement()) @db.UnsignedInt
+  name String
+}
+
+model Book {
+  id    Int    @id @default(autoincrement()) @db.UnsignedInt
+  title String
+  pages Int    @db.UnsignedInt
+}
