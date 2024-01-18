@@ -82,6 +82,63 @@ app.post("/phones", async (req, res) => {
 });
 
 /**
+ * PATCH /phones/:phoneId
+ *
+ * Update a phone
+ */
+app.patch("/phones/:phoneId", async (req, res) => {
+	const phoneId = Number(req.params.phoneId);
+
+	try {
+		const phone = await prisma.phones.update({
+			where: {
+				id: phoneId,
+			},
+			data: req.body,
+		});
+		res.status(200).send(phone);
+
+	} catch (err: any) {
+		if (err.code === "P2025") {
+			// NotFoundError
+			console.log(err);
+			res.status(404).send({ message: "Phone Not Found" });
+		} else {
+			console.error(err);
+			res.status(500).send({ message: "Something went wrong when querying the database" });
+		}
+	}
+});
+
+/**
+ * DELETE /phones/:phoneId
+ *
+ * Delete a phone
+ */
+app.delete("/phones/:phoneId", async (req, res) => {
+	const phoneId = Number(req.params.phoneId);
+
+	try {
+		await prisma.phones.delete({
+			where: {
+				id: phoneId,
+			}
+		});
+		res.status(200).send({});
+
+	} catch (err: any) {
+		if (err.code === "P2025") {
+			// NotFoundError
+			console.log(err);
+			res.status(404).send({ message: "Phone Not Found" });
+		} else {
+			console.error(err);
+			res.status(500).send({ message: "Something went wrong when querying the database" });
+		}
+	}
+});
+
+/**
  * GET /users
  *
  * Get all users
