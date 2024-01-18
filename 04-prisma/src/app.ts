@@ -44,6 +44,9 @@ app.get("/phones/:phoneId", async (req, res) => {
 			where: {
 				id: phoneId,
 			},
+			include: {
+				user: true,
+			},
 		});
 		res.send(phone);
 
@@ -88,6 +91,9 @@ app.get("/users/:userId", async (req, res) => {
 		const user = await prisma.users.findUniqueOrThrow({
 			where: {
 				id: userId,
+			},
+			include: {
+				phones: true,
 			},
 		});
 		res.send(user);
