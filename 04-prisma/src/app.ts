@@ -37,6 +37,27 @@ app.get("/phones", async (req, res) => {
  * Get a single phone
  */
 app.get("/phones/:phoneId", async (req, res) => {
+	const phoneId = Number(req.params.phoneId);
+
+	try {
+		const phone = await prisma.phones.findUniqueOrThrow({
+			where: {
+				id: phoneId,
+			},
+		});
+		res.send(phone);
+
+	} catch (err: any) {
+		if (err.code === "P2025") {
+			// NotFoundError
+			console.log(err);
+			res.status(404).send({ message: "Phone Not Found" });
+		} else {
+			console.error(err);
+			res.status(500).send({ message: "Something went wrong when querying the database" });
+		}
+
+	}
 });
 
 /**
@@ -61,6 +82,27 @@ app.get("/users", async (req, res) => {
  * Get a single user
  */
 app.get("/users/:userId", async (req, res) => {
+	const userId = Number(req.params.userId);
+
+	try {
+		const user = await prisma.users.findUniqueOrThrow({
+			where: {
+				id: userId,
+			},
+		});
+		res.send(user);
+
+	} catch (err: any) {
+		if (err.code === "P2025") {
+			// NotFoundError
+			console.log(err);
+			res.status(404).send({ message: "User Not Found" });
+		} else {
+			console.error(err);
+			res.status(500).send({ message: "Something went wrong when querying the database" });
+		}
+
+	}
 });
 
 export default app;
