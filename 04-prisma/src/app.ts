@@ -147,4 +147,27 @@ app.post("/users", async (req, res) => {
 	}
 });
 
+/**
+ * PATCH /users/:userId
+ *
+ * Update a user
+ */
+app.patch("/users/:userId", async (req, res) => {
+	const userId = Number(req.params.userId);
+
+	try {
+		const user = await prisma.users.update({
+			where: {
+				id: userId,
+			},
+			data: req.body,
+		});
+		res.status(200).send(user);
+
+	} catch (err) {
+		console.error(err);
+		res.status(500).send({ message: "Something went wrong when updating the record in the database" });
+	}
+});
+
 export default app;
