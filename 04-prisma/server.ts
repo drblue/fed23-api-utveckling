@@ -32,7 +32,7 @@ server.on("error", (err: NodeJS.ErrnoException) => {
 			process.exit(1);
 			break;
 		case "EADDRINUSE":
-			console.error(`🛑 Port ${PORT} is already in use`);
+			console.error(`🛑 Port ${PORT} is already in use in another of your fifty thousand terminals 😜`);
 			process.exit(1);
 			break;
 		default:
