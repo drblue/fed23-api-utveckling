@@ -164,9 +164,43 @@ app.patch("/users/:userId", async (req, res) => {
 		});
 		res.status(200).send(user);
 
-	} catch (err) {
-		console.error(err);
-		res.status(500).send({ message: "Something went wrong when updating the record in the database" });
+	} catch (err: any) {
+		if (err.code === "P2025") {
+			// NotFoundError
+			console.log(err);
+			res.status(404).send({ message: "User Not Found" });
+		} else {
+			console.error(err);
+			res.status(500).send({ message: "Something went wrong when querying the database" });
+		}
+	}
+});
+
+/**
+ * DELETE /users/:userId
+ *
+ * Delete a user
+ */
+app.delete("/users/:userId", async (req, res) => {
+	const userId = Number(req.params.userId);
+
+	try {
+		await prisma.users.delete({
+			where: {
+				id: userId,
+			}
+		});
+		res.status(200).send({});
+
+	} catch (err: any) {
+		if (err.code === "P2025") {
+			// NotFoundError
+			console.log(err);
+			res.status(404).send({ message: "User Not Found" });
+		} else {
+			console.error(err);
+			res.status(500).send({ message: "Something went wrong when querying the database" });
+		}
 	}
 });
 
