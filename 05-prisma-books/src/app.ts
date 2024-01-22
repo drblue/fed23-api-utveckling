@@ -289,6 +289,45 @@ app.post("/books/:bookId/authors", async (req, res) => {
 		if (err.code === "P2025") {
 			// NotFoundError
 			console.log(err);
+			res.status(404).send({ message: "Book or Author Not Found" });
+		} else {
+			console.error(err);
+			res.status(500).send({ message: "Something went wrong when querying the database" });
+		}
+	}
+});
+
+/**
+ * DELETE /books/:bookId/authors/:authorId
+ *
+ * Unlink an author from a book
+ */
+app.delete("/books/:bookId/authors/:authorId", async (req, res) => {
+	const bookId = Number(req.params.bookId);
+	const authorId = Number(req.params.authorId);
+
+	try {
+		const book = await prisma.book.update({
+			where: {
+				id: bookId,
+			},
+			data: {
+				authors: {
+					disconnect: {
+						id: authorId,
+					},
+				},
+			},
+			include: {
+				authors: true,
+			}
+		});
+		res.status(200).send(book);
+
+	} catch (err: any) {
+		if (err.code === "P2025") {
+			// NotFoundError
+			console.log(err);
 			res.status(404).send({ message: "Book Not Found" });
 		} else {
 			console.error(err);

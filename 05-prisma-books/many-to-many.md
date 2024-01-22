@@ -34,3 +34,5 @@
   }
 ]
 ```
+
+## DELETE /books/12/authors/8
