@@ -3,6 +3,7 @@ import prisma from "./prisma"; // importing the prisma instance we created
 import morgan from "morgan";
 import authorRoutes from "./routes/authors";
 import bookRoutes from "./routes/books";
+import publisherRoutes from "./routes/publishers";
 
 const app = express();
 app.use(express.json());
@@ -11,6 +12,7 @@ app.use(morgan("dev"));
 // Use dem routes
 app.use(authorRoutes);
 app.use(bookRoutes);
+app.use(publisherRoutes);
 
 /**
  * GET /

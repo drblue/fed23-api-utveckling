@@ -8,15 +8,23 @@ datasource db {
 }
 
 model Author {
-  id    Int    @id @default(autoincrement()) @db.UnsignedInt
-  name  String
+  id        Int    @id @default(autoincrement()) @db.UnsignedInt
+  name      String
   birthyear Int?   @db.UnsignedInt
-  books Book[]
+  books     Book[]
 }
 
 model Book {
-  id      Int      @id @default(autoincrement()) @db.UnsignedInt
-  title   String
-  pages   Int      @db.UnsignedInt
-  authors Author[]
+  id          Int        @id @default(autoincrement()) @db.UnsignedInt
+  title       String
+  pages       Int        @db.UnsignedInt
+  publisherId Int?       @db.UnsignedInt
+  authors     Author[]
+  publisher   Publisher? @relation(fields: [publisherId], references: [id])
+}
+
+model Publisher {
+  id    Int    @id @default(autoincrement()) @db.UnsignedInt
+  name  String
+  books Book[]
 }
