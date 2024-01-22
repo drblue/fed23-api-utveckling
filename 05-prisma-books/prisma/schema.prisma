@@ -17,5 +17,6 @@ model Book {
   id      Int      @id @default(autoincrement()) @db.UnsignedInt
   title   String
   pages   Int      @db.UnsignedInt
+  isbn    Int?     @db.UnsignedInt
   authors Author[]
 }
