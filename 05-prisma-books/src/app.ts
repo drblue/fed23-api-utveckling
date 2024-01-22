@@ -262,6 +262,42 @@ app.delete("/books/:bookId", async (req, res) => {
 });
 
 /**
+ * POST /books/:bookId/authors
+ *
+ * Link book to author(s)
+ */
+app.post("/books/:bookId/authors", async (req, res) => {
+	const bookId = Number(req.params.bookId);
+
+	try {
+		const book = await prisma.book.update({
+			where: {
+				id: bookId,
+			},
+			data: {
+				authors: {
+					connect: req.body,  // { "id": 7 }
+				},
+			},
+			include: {
+				authors: true,
+			}
+		});
+		res.status(201).send(book);
+
+	} catch (err: any) {
+		if (err.code === "P2025") {
+			// NotFoundError
+			console.log(err);
+			res.status(404).send({ message: "Book Not Found" });
+		} else {
+			console.error(err);
+			res.status(500).send({ message: "Something went wrong when querying the database" });
+		}
+	}
+});
+
+/**
  * Catch-all route handler
  */
 app.use((req, res) => {
