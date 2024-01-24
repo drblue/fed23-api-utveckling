@@ -1,5 +1,5 @@
 import express from "express";
-import prisma from "../prisma";
+import { index, show, store, update, destroy } from "../controllers/publisher_controller";
 const router = express.Router();
 
 /**
@@ -7,122 +7,34 @@ const router = express.Router();
  *
  * Get all publishers
  */
-router.get("/", async (req, res) => {
-	try {
-		const publishers = await prisma.publisher.findMany();
-		res.send(publishers);
-
-	} catch (err) {
-		console.error(err);
-		res.status(500).send({ message: "Something went wrong when querying the database" });
-	}
-});
+router.get("/", index);
 
 /**
  * GET /publishers/:publisherId
  *
  * Get a single publisher
  */
-router.get("/:publisherId", async (req, res) => {
-	const publisherId = Number(req.params.publisherId);
-
-	try {
-		const publisher = await prisma.publisher.findUniqueOrThrow({
-			where: {
-				id: publisherId,
-			},
-			include: {
-				books: true,
-			},
-		});
-		res.send(publisher);
-
-	} catch (err: any) {
-		if (err.code === "P2025") {
-			// NotFoundError
-			console.log(err);
-			res.status(404).send({ message: "Publisher Not Found" });
-		} else {
-			console.error(err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
-		}
-
-	}
-});
+router.get("/:publisherId", show);
 
 /**
  * POST /publishers
  *
  * Create a publisher
  */
-router.post("/", async (req, res) => {
-	try {
-		const publisher = await prisma.publisher.create({
-			data: req.body,
-		});
-		res.status(201).send(publisher);
-
-	} catch (err) {
-		console.error(err);
-		res.status(500).send({ message: "Something went wrong when creating the record in the database" });
-	}
-});
+router.post("/", store);
 
 /**
  * PATCH /publishers/:publisherId
  *
  * Update a publisher
  */
-router.patch("/:publisherId", async (req, res) => {
-	const publisherId = Number(req.params.publisherId);
-
-	try {
-		const publisher = await prisma.publisher.update({
-			where: {
-				id: publisherId,
-			},
-			data: req.body,
-		});
-		res.status(200).send(publisher);
-
-	} catch (err: any) {
-		if (err.code === "P2025") {
-			// NotFoundError
-			console.log(err);
-			res.status(404).send({ message: "Publisher Not Found" });
-		} else {
-			console.error(err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
-		}
-	}
-});
+router.patch("/:publisherId", update);
 
 /**
  * DELETE /publishers/:publisherId
  *
  * Delete a publisher
  */
-router.delete("/:publisherId", async (req, res) => {
-	const publisherId = Number(req.params.publisherId);
-
-	try {
-		await prisma.publisher.delete({
-			where: {
-				id: publisherId,
-			}
-		});
-		res.status(200).send({});
-
-	} catch (err: any) {
-		if (err.code === "P2025") {
-			// NotFoundError
-			console.log(err);
-			res.status(404).send({ message: "Publisher Not Found" });
-		} else {
-			console.error(err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
-		}
-	}
-});
+router.delete("/:publisherId", destroy);
 
 export default router;
