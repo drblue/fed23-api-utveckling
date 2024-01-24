@@ -1,4 +1,5 @@
 import express from "express";
+import { body } from "express-validator";
 import { index, show, store, update, destroy } from "../controllers/author_controller";
 const router = express.Router();
 
@@ -21,7 +22,14 @@ router.get("/:authorId", show);
  *
  * Create a author
  */
-router.post("/", store);
+router.post("/", [
+	body("name")
+		.isString().withMessage("has to be a string").bail()
+		.isLength({ min: 3, max: 191 }).withMessage("has to be 3-191 chars long"),
+	body("birthyear")
+		.optional()
+		.isInt().withMessage("has to be a integer"),
+], store);
 
 /**
  * PATCH /authors/:authorId

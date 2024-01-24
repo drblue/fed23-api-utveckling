@@ -3,6 +3,7 @@
  */
 import Debug from "debug";
 import { Request, Response } from "express";
+import { validationResult } from "express-validator";
 import prisma from "../prisma";
 
 // Create a new debug instance
@@ -56,6 +57,16 @@ export const show = async (req: Request, res: Response) => {
  * Create a author
  */
 export const store = async (req: Request, res: Response) => {
+	// Check for any validation errors
+	const validationErrors = validationResult(req);
+	if (!validationErrors.isEmpty()) {
+		res.status(400).send({
+			status: "fail",
+			data: validationErrors.array(),
+		});
+		return;
+	}
+
 	try {
 		const author = await prisma.author.create({
 			data: req.body,
