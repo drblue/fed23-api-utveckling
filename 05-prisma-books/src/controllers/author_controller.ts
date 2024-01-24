@@ -1,8 +1,12 @@
 /**
  * Author Controller
  */
+import Debug from "debug";
 import { Request, Response } from "express";
 import prisma from "../prisma";
+
+// Create a new debug instance
+const debug = Debug("prisma-books:author_controller");
 
 /**
  * Get all authors
@@ -38,7 +42,8 @@ export const show = async (req: Request, res: Response) => {
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			console.log(err);
+			debug("Author not found");
+			// console.log(err);
 			res.status(404).send({ message: "Author Not Found" });
 		} else {
 			console.error(err);

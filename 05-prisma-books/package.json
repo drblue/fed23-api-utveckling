@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.ts"
+    "dev": "cross-env DEBUG=prisma-books:* nodemon server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/debug": "^4.1.12",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.11.5",
@@ -20,6 +21,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.8.1",
+    "cross-env": "^7.0.3",
+    "debug": "^4.3.4",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "morgan": "^1.10.0"
