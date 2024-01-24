@@ -1,5 +1,5 @@
 import express from "express";
-import prisma from "../prisma";
+import { index, show, store, update, destroy } from "../controllers/author_controller";
 const router = express.Router();
 
 /**
@@ -7,122 +7,34 @@ const router = express.Router();
  *
  * Get all authors
  */
-router.get("/", async (req, res) => {
-	try {
-		const authors = await prisma.author.findMany();
-		res.send(authors);
-
-	} catch (err) {
-		console.error(err);
-		res.status(500).send({ message: "Something went wrong when querying the database" });
-	}
-});
+router.get("/", index);
 
 /**
  * GET /authors/:authorId
  *
  * Get a single author
  */
-router.get("/:authorId", async (req, res) => {
-	const authorId = Number(req.params.authorId);
-
-	try {
-		const author = await prisma.author.findUniqueOrThrow({
-			where: {
-				id: authorId,
-			},
-			include: {
-				books: true,
-			},
-		});
-		res.send(author);
-
-	} catch (err: any) {
-		if (err.code === "P2025") {
-			// NotFoundError
-			console.log(err);
-			res.status(404).send({ message: "Author Not Found" });
-		} else {
-			console.error(err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
-		}
-
-	}
-});
+router.get("/:authorId", show);
 
 /**
  * POST /authors
  *
  * Create a author
  */
-router.post("/", async (req, res) => {
-	try {
-		const author = await prisma.author.create({
-			data: req.body,
-		});
-		res.status(201).send(author);
-
-	} catch (err) {
-		console.error(err);
-		res.status(500).send({ message: "Something went wrong when creating the record in the database" });
-	}
-});
+router.post("/", store);
 
 /**
  * PATCH /authors/:authorId
  *
  * Update a author
  */
-router.patch("/:authorId", async (req, res) => {
-	const authorId = Number(req.params.authorId);
-
-	try {
-		const author = await prisma.author.update({
-			where: {
-				id: authorId,
-			},
-			data: req.body,
-		});
-		res.status(200).send(author);
-
-	} catch (err: any) {
-		if (err.code === "P2025") {
-			// NotFoundError
-			console.log(err);
-			res.status(404).send({ message: "Author Not Found" });
-		} else {
-			console.error(err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
-		}
-	}
-});
+router.patch("/:authorId", update);
 
 /**
  * DELETE /authors/:authorId
  *
  * Delete a author
  */
-router.delete("/:authorId", async (req, res) => {
-	const authorId = Number(req.params.authorId);
-
-	try {
-		await prisma.author.delete({
-			where: {
-				id: authorId,
-			}
-		});
-		res.status(200).send({});
-
-	} catch (err: any) {
-		if (err.code === "P2025") {
-			// NotFoundError
-			console.log(err);
-			res.status(404).send({ message: "Author Not Found" });
-		} else {
-			console.error(err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
-		}
-	}
-});
+router.delete("/:authorId", destroy);
 
 export default router;
