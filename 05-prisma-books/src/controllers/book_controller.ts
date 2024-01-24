@@ -1,8 +1,8 @@
 /**
  * Book Controller
  */
-import { Request, Response } from 'express'
-import prisma from '../prisma'
+import { Request, Response } from 'express';
+import prisma from '../prisma';
 
 /**
  * Get all books
