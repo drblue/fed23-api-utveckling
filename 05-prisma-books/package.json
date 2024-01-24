@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "cross-env DEBUG=prisma-books:* nodemon server.ts"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
