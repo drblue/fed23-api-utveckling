@@ -1,8 +1,12 @@
 /**
  * Book Controller
  */
-import { Request, Response } from 'express';
-import prisma from '../prisma';
+import Debug from "debug";
+import { Request, Response } from "express";
+import prisma from "../prisma";
+
+// Create a new debug instance
+const debug = Debug("prisma-books:book_controller");
 
 /**
  * Get all books
@@ -13,7 +17,7 @@ export const index = async (req: Request, res: Response) => {
 		res.send(books);
 
 	} catch (err) {
-		console.error(err);
+		debug("Error when trying to query for all Books: %O", err);
 		res.status(500).send({ message: "Something went wrong when querying the database" });
 	}
 }
@@ -39,10 +43,9 @@ export const show = async (req: Request, res: Response) => {
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			console.log(err);
 			res.status(404).send({ message: "Book Not Found" });
 		} else {
-			console.error(err);
+			debug("Error when trying to query for Book with ID %d: %O", bookId, err);
 			res.status(500).send({ message: "Something went wrong when querying the database" });
 		}
 
@@ -60,7 +63,7 @@ export const store = async (req: Request, res: Response) => {
 		res.status(201).send(book);
 
 	} catch (err) {
-		console.error(err);
+		debug("Error when trying to create a new Book: %O", err);
 		res.status(500).send({ message: "Something went wrong when creating the record in the database" });
 	}
 }
@@ -83,10 +86,9 @@ export const update = async (req: Request, res: Response) => {
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			console.log(err);
 			res.status(404).send({ message: "Book Not Found" });
 		} else {
-			console.error(err);
+			debug("Error when trying to update Book with ID %d: %O", bookId, err);
 			res.status(500).send({ message: "Something went wrong when querying the database" });
 		}
 	}
@@ -109,10 +111,9 @@ export const destroy = async (req: Request, res: Response) => {
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			console.log(err);
 			res.status(404).send({ message: "Book Not Found" });
 		} else {
-			console.error(err);
+			debug("Error when trying to delete Book with ID %d: %O", bookId, err);
 			res.status(500).send({ message: "Something went wrong when querying the database" });
 		}
 	}
@@ -143,10 +144,9 @@ export const addAuthor = async (req: Request, res: Response) => {
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			console.log(err);
 			res.status(404).send({ message: "Book or Author Not Found" });
 		} else {
-			console.error(err);
+			debug("Error when trying to add Authors %o to Book with ID %d: %O", req.body, bookId, err);
 			res.status(500).send({ message: "Something went wrong when querying the database" });
 		}
 	}
@@ -180,9 +180,9 @@ export const removeAuthor = async (req: Request, res: Response) => {
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			console.log(err);
 			res.status(404).send({ message: "Book Not Found" });
 		} else {
+			debug("Error when trying to remove Author %d to Book with ID %d: %O", authorId, bookId, err);
 			console.error(err);
 			res.status(500).send({ message: "Something went wrong when querying the database" });
 		}

@@ -42,11 +42,10 @@ export const show = async (req: Request, res: Response) => {
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			debug("Author not found");
-			// console.log(err);
+			debug("Author with ID %d could not be found: %O", authorId, err);
 			res.status(404).send({ message: "Author Not Found" });
 		} else {
-			console.error(err);
+			debug("Error when trying to query for Author with ID %d: %O", authorId, err);
 			res.status(500).send({ message: "Something went wrong when querying the database" });
 		}
 
