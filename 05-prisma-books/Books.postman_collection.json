@@ -35,7 +35,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/authors/7",
+							"raw": "http://localhost:3000/authors/8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -43,7 +43,7 @@
 							"port": "3000",
 							"path": [
 								"authors",
-								"7"
+								"8"
 							]
 						}
 					},
@@ -101,6 +101,26 @@
 							"path": [
 								"authors",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an author",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/authors/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"authors",
+								"8"
 							]
 						}
 					},
@@ -185,7 +205,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"publisherId\": 1\n}",
+							"raw": "{\n\t\"publisherId\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -193,7 +213,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/books/4",
+							"raw": "http://localhost:3000/books/12",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -201,7 +221,27 @@
 							"port": "3000",
 							"path": [
 								"books",
-								"4"
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a book",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/books/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books",
+								"12"
 							]
 						}
 					},
@@ -319,7 +359,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/publishers/1",
+							"raw": "http://localhost:3000/publishers/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -327,7 +367,7 @@
 							"port": "3000",
 							"path": [
 								"publishers",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -375,6 +415,26 @@
 								}
 							}
 						},
+						"url": {
+							"raw": "http://localhost:3000/publishers/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"publishers",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a publisher",
+					"request": {
+						"method": "DELETE",
+						"header": [],
 						"url": {
 							"raw": "http://localhost:3000/publishers/2",
 							"protocol": "http",

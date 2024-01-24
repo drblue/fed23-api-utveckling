@@ -103,9 +103,6 @@ router.patch("/:publisherId", async (req, res) => {
  * Delete a publisher
  */
 router.delete("/:publisherId", async (req, res) => {
-	res.status(405).send({ message: "Not Implemented" });
-	return;
-
 	const publisherId = Number(req.params.publisherId);
 
 	try {
