@@ -16,17 +16,17 @@ router.get("/", (req, res) => {
 /**
  * /authors
  */
-router.use(authorRoutes);
+router.use("/authors", authorRoutes);
 
 /**
  * /books
  */
-router.use(bookRoutes);
+router.use("/books", bookRoutes);
 
 /**
  * /publishers
  */
-router.use(publisherRoutes);
+router.use("/publishers", publisherRoutes);
 
 /**
  * Catch-all route handler

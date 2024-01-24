@@ -7,7 +7,7 @@ const router = express.Router();
  *
  * Get all publishers
  */
-router.get("/publishers", async (req, res) => {
+router.get("/", async (req, res) => {
 	try {
 		const publishers = await prisma.publisher.findMany();
 		res.send(publishers);
@@ -23,7 +23,7 @@ router.get("/publishers", async (req, res) => {
  *
  * Get a single publisher
  */
-router.get("/publishers/:publisherId", async (req, res) => {
+router.get("/:publisherId", async (req, res) => {
 	const publisherId = Number(req.params.publisherId);
 
 	try {
@@ -55,7 +55,7 @@ router.get("/publishers/:publisherId", async (req, res) => {
  *
  * Create a publisher
  */
-router.post("/publishers", async (req, res) => {
+router.post("/", async (req, res) => {
 	try {
 		const publisher = await prisma.publisher.create({
 			data: req.body,
@@ -73,7 +73,7 @@ router.post("/publishers", async (req, res) => {
  *
  * Update a publisher
  */
-router.patch("/publishers/:publisherId", async (req, res) => {
+router.patch("/:publisherId", async (req, res) => {
 	const publisherId = Number(req.params.publisherId);
 
 	try {
@@ -102,7 +102,7 @@ router.patch("/publishers/:publisherId", async (req, res) => {
  *
  * Delete a publisher
  */
-router.delete("/publishers/:publisherId", async (req, res) => {
+router.delete("/:publisherId", async (req, res) => {
 	res.status(405).send({ message: "Not Implemented" });
 	return;
 
