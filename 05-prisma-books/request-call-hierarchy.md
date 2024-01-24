@@ -28,6 +28,8 @@ server.ts
                 POST /                        /books
                 PATCH /:bookId                /books/:bookId
                 DELETE /:bookId               /books/:bookId
+                POST /authors                 /books/:bookId/authors
+                DELETE /authors/:authorId     /books/:bookId/authors/:authorId
 
             -> routes/publishers.ts           /publishers/*
                 GET /                         /publishers
