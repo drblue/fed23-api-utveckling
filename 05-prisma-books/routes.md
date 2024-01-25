@@ -55,3 +55,33 @@ Update book details ✨.
 ### `DELETE /books/:bookId`
 
 Delete a book 🔥.
+
+### `POST /books/:bookId/authors`
+
+Link author(s) to a book 🔗.
+
+### `DELETE /books/:bookId/authors/:authorId`
+
+Unlink author from a book 🔗.
+
+## Publishers 📚
+
+### `GET /publishers`
+
+Get all publishers.
+
+### `GET /publishers/:publisherId`
+
+Get publisher details and all their authors (if any).
+
+### `POST /publishers`
+
+Create a publisher ✍🏻.
+
+### `PATCH /publishers/:publisherId`
+
+Update publisher details ✨.
+
+### `DELETE /publishers/:publisherId`
+
+Delete a publisher 🔥.
