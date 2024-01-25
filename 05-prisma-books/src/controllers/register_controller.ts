@@ -1,9 +1,11 @@
 /**
  * Register Controller
  */
+import bcrypt from "bcrypt";
 import Debug from "debug";
 import { Request, Response } from "express";
 import { matchedData, validationResult } from "express-validator";
+import prisma from "../prisma";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:register_controller");
@@ -26,13 +28,27 @@ export const register = async (req: Request, res: Response) => {
 
 	// Get only the validated data from the request
 	const validatedData = matchedData(req);
-	debug("req.body: %O", req.body);
 	debug("validatedData: %O", validatedData);
 
 	// Calculate a hash + salt for the password
+	const hashed_password = await bcrypt.hash(validatedData.password, 10);
+	debug("plaintext password:", validatedData.password);
+	debug("hashed password:", hashed_password);
 
 	// Store the user in the database
+	try {
+		const user = await prisma.user.create({
+			data: {
+				name: validatedData.name,
+				email: validatedData.email,
+				password: hashed_password,
+			},
+		})
 
-	// Respond with 201 Created + status success
-	res.status(201).send({ status: "success", data: null });
+		// Respond with 201 Created + status success
+		res.status(201).send({ status: "success", data: user })
+
+	} catch (err) {
+		return res.status(500).send({ status: "error", message: "Could not create user in database" })
+	}
 }
