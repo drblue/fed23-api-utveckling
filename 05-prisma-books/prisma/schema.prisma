@@ -21,10 +21,19 @@ model Book {
   publisherId Int?       @db.UnsignedInt
   authors     Author[]
   publisher   Publisher? @relation(fields: [publisherId], references: [id])
+  users       User[]
 }
 
 model Publisher {
   id    Int    @id @default(autoincrement()) @db.UnsignedInt
   name  String
   books Book[]
+}
+
+model User {
+  id       Int    @id @default(autoincrement()) @db.UnsignedInt
+  name     String
+  email    String
+  password String
+  books    Book[]
 }
