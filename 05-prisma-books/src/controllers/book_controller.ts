@@ -14,11 +14,11 @@ const debug = Debug("prisma-books:book_controller");
 export const index = async (req: Request, res: Response) => {
 	try {
 		const books = await prisma.book.findMany();
-		res.send(books);
+		res.send({ status: "success", data: books });
 
 	} catch (err) {
 		debug("Error when trying to query for all Books: %O", err);
-		res.status(500).send({ message: "Something went wrong when querying the database" });
+		res.status(500).send({ status: "error", message: "Something went wrong when querying the database" });
 	}
 }
 
@@ -38,15 +38,15 @@ export const show = async (req: Request, res: Response) => {
 				publisher: true,
 			},
 		});
-		res.send(book);
+		res.send({ status: "success", data: book });
 
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			res.status(404).send({ message: "Book Not Found" });
+			res.status(404).send({ status: "error", message: "Book Not Found" });
 		} else {
 			debug("Error when trying to query for Book with ID %d: %O", bookId, err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
+			res.status(500).send({ status: "error", message: "Something went wrong when querying the database" });
 		}
 
 	}
@@ -60,11 +60,11 @@ export const store = async (req: Request, res: Response) => {
 		const book = await prisma.book.create({
 			data: req.body,
 		});
-		res.status(201).send(book);
+		res.status(201).send({ status: "success", data: book });
 
 	} catch (err) {
 		debug("Error when trying to create a new Book: %O", err);
-		res.status(500).send({ message: "Something went wrong when creating the record in the database" });
+		res.status(500).send({ status: "error", message: "Something went wrong when creating the record in the database" });
 	}
 }
 
@@ -81,15 +81,15 @@ export const update = async (req: Request, res: Response) => {
 			},
 			data: req.body,
 		});
-		res.status(200).send(book);
+		res.status(200).send({ status: "success", data: book });
 
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			res.status(404).send({ message: "Book Not Found" });
+			res.status(404).send({ status: "error", message: "Book Not Found" });
 		} else {
 			debug("Error when trying to update Book with ID %d: %O", bookId, err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
+			res.status(500).send({ status: "error", message: "Something went wrong when querying the database" });
 		}
 	}
 }
@@ -106,15 +106,15 @@ export const destroy = async (req: Request, res: Response) => {
 				id: bookId,
 			}
 		});
-		res.status(200).send({});
+		res.status(200).send({ status: "success", data: {} });
 
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			res.status(404).send({ message: "Book Not Found" });
+			res.status(404).send({ status: "error", message: "Book Not Found" });
 		} else {
 			debug("Error when trying to delete Book with ID %d: %O", bookId, err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
+			res.status(500).send({ status: "error", message: "Something went wrong when querying the database" });
 		}
 	}
 }
@@ -139,15 +139,15 @@ export const addAuthor = async (req: Request, res: Response) => {
 				authors: true,
 			}
 		});
-		res.status(201).send(book);
+		res.status(201).send({ status: "success", data: book });
 
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			res.status(404).send({ message: "Book or Author Not Found" });
+			res.status(404).send({ status: "error", message: "Book or Author Not Found" });
 		} else {
 			debug("Error when trying to add Authors %o to Book with ID %d: %O", req.body, bookId, err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
+			res.status(500).send({ status: "error", message: "Something went wrong when querying the database" });
 		}
 	}
 }
@@ -175,16 +175,16 @@ export const removeAuthor = async (req: Request, res: Response) => {
 				authors: true,
 			}
 		});
-		res.status(200).send(book);
+		res.status(200).send({ status: "success", data: book });
 
 	} catch (err: any) {
 		if (err.code === "P2025") {
 			// NotFoundError
-			res.status(404).send({ message: "Book Not Found" });
+			res.status(404).send({ status: "error", message: "Book Not Found" });
 		} else {
 			debug("Error when trying to remove Author %d to Book with ID %d: %O", authorId, bookId, err);
 			console.error(err);
-			res.status(500).send({ message: "Something went wrong when querying the database" });
+			res.status(500).send({ status: "error", message: "Something went wrong when querying the database" });
 		}
 	}
 }
