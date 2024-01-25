@@ -85,3 +85,62 @@ Update publisher details ✨.
 ### `DELETE /publishers/:publisherId`
 
 Delete a publisher 🔥.
+
+## Users
+
+* id
+* name
+* email
+* password
+
+## `POST /register`
+
+Register a new user.
+
+### Request
+
+```json
+{
+  "name": "Johan Nordström",
+  "email": "jn@thehiveresistance.com",
+  "password": "abc123"
+}
+```
+
+## `GET /profile` 👮‍♀️
+
+Get the authenticated user information.
+
+### Request
+
+Authorization: Basic ajsiwerjiwerjiwerasejriowerjiowe
+
+### Response
+
+```json
+{
+  "id": 1,
+  "name": "Johan Nordström",
+  "email": "jn@thehiveresistance.com"
+}
+```
+
+```json
+{
+  "id": 2,
+  "name": "Sean Banan",
+  "email": "sean@banan.se"
+}
+```
+
+## `GET /profile/books` 👮‍♀️
+
+Get the authenticated user's books.
+
+```json
+[
+  {},
+  {},
+  {}
+]
+```
