@@ -43,12 +43,13 @@ export const register = async (req: Request, res: Response) => {
 				email: validatedData.email,
 				password: hashed_password,
 			},
-		})
+		});
 
 		// Respond with 201 Created + status success
-		res.status(201).send({ status: "success", data: user })
+		res.status(201).send({ status: "success", data: user });
 
 	} catch (err) {
-		return res.status(500).send({ status: "error", message: "Could not create user in database" })
+		debug("Error when trying to create User: %O", err);
+		return res.status(500).send({ status: "error", message: "Could not create user in database" });
 	}
 }
