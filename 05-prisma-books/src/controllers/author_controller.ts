@@ -5,6 +5,7 @@ import Debug from "debug";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import prisma from "../prisma";
+import { deleteAuthor, getAuthor, getAuthors } from "../services/author_service";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:author_controller");
@@ -14,7 +15,7 @@ const debug = Debug("prisma-books:author_controller");
  */
 export const index = async (req: Request, res: Response) => {
 	try {
-		const authors = await prisma.author.findMany();
+		const authors = await getAuthors();
 		res.send({ status: "success", data: authors });
 
 	} catch (err) {
@@ -30,14 +31,7 @@ export const show = async (req: Request, res: Response) => {
 	const authorId = Number(req.params.authorId);
 
 	try {
-		const author = await prisma.author.findUniqueOrThrow({
-			where: {
-				id: authorId,
-			},
-			include: {
-				books: true,
-			},
-		});
+		const author = await getAuthor(authorId);
 		res.send({ status: "success", data: author });
 
 	} catch (err: any) {
@@ -113,11 +107,7 @@ export const destroy = async (req: Request, res: Response) => {
 	const authorId = Number(req.params.authorId);
 
 	try {
-		await prisma.author.delete({
-			where: {
-				id: authorId,
-			}
-		});
+		await deleteAuthor(authorId);
 		res.send({ status: "success", data: {} });
 
 	} catch (err: any) {
