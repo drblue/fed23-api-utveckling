@@ -3,9 +3,10 @@
  */
 import Debug from "debug";
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
+import { matchedData, validationResult } from "express-validator";
 import prisma from "../prisma";
-import { deleteAuthor, getAuthor, getAuthors } from "../services/author_service";
+import { createAuthor, deleteAuthor, getAuthor, getAuthors, updateAuthor } from "../services/author_service";
+import { CreateAuthor } from "../types/Author.types";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:author_controller");
@@ -61,10 +62,11 @@ export const store = async (req: Request, res: Response) => {
 		return;
 	}
 
+	// Get only the validated data
+	const validatedData = matchedData(req) as CreateAuthor;
+
 	try {
-		const author = await prisma.author.create({
-			data: req.body,
-		});
+		const author = await createAuthor(validatedData);
 		res.status(201).send({ status: "success", data: author });
 
 	} catch (err) {
@@ -80,12 +82,7 @@ export const update = async (req: Request, res: Response) => {
 	const authorId = Number(req.params.authorId);
 
 	try {
-		const author = await prisma.author.update({
-			where: {
-				id: authorId,
-			},
-			data: req.body,
-		});
+		const author = await updateAuthor(authorId, req.body);
 		res.send({ status: "success", data: author });
 
 	} catch (err: any) {
