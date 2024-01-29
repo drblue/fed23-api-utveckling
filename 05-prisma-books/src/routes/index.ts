@@ -5,6 +5,7 @@ import profileRoutes from "./profile";
 import publisherRoutes from "./publishers";
 import { register } from "../controllers/register_controller";
 import { createUserRules } from "../validations/user_rules";
+import { basic } from "../middlewares/auth/basic";
 const router = express.Router();
 
 /**
@@ -39,9 +40,9 @@ router.use("/publishers", publisherRoutes);
 router.post("/register", createUserRules, register);
 
 /**
- * /profile
+ * /profile 👮🏻‍♂️
  */
-router.use("/profile", profileRoutes);
+router.use("/profile", basic, profileRoutes);
 
 /**
  * Catch-all route handler
