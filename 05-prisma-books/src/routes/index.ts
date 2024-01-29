@@ -1,6 +1,7 @@
 import express from "express";
 import authorRoutes from "./authors";
 import bookRoutes from "./books";
+import profileRoutes from "./profile";
 import publisherRoutes from "./publishers";
 import { register } from "../controllers/register_controller";
 import { createUserRules } from "../validations/user_rules";
@@ -36,6 +37,11 @@ router.use("/publishers", publisherRoutes);
  * Register a new user.
  */
 router.post("/register", createUserRules, register);
+
+/**
+ * /profile
+ */
+router.use("/profile", profileRoutes);
 
 /**
  * Catch-all route handler
