@@ -64,7 +64,8 @@ export const basic = async (req: Request, res: Response, next: NextFunction) => 
 
 	debug("Password for user %s was correct 🥳", email);
 
-	// 8. Attach user to request
+	// 8. Attach user to request 🤩
+	req.user = user;
 
 	// 9. Profit 💰🤑
 	next();
