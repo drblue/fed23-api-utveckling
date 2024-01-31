@@ -35,7 +35,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/authors/8",
+							"raw": "http://localhost:3000/authors/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -43,7 +43,7 @@
 							"port": "3000",
 							"path": [
 								"authors",
-								"8"
+								"7"
 							]
 						}
 					},
@@ -56,7 +56,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Mr Beast\"\n}",
+							"raw": "{\n\t\"name\": \"Newborn Author\",\n\t\"birthyear\": 2024\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -156,7 +156,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/books/12",
+							"raw": "http://localhost:3000/books/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -164,7 +164,7 @@
 							"port": "3000",
 							"path": [
 								"books",
-								"12"
+								"1"
 							]
 						}
 					},
@@ -205,7 +205,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"publisherId\": 2\n}",
+							"raw": "{\n\t\"publisherId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -213,7 +213,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/books/12",
+							"raw": "http://localhost:3000/books/8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -221,7 +221,7 @@
 							"port": "3000",
 							"path": [
 								"books",
-								"12"
+								"8"
 							]
 						}
 					},
@@ -233,7 +233,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/books/12",
+							"raw": "http://localhost:3000/books/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -241,7 +241,7 @@
 							"port": "3000",
 							"path": [
 								"books",
-								"12"
+								"7"
 							]
 						}
 					},
@@ -262,7 +262,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/books/12/authors",
+							"raw": "http://localhost:3000/books/1/authors",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -270,7 +270,7 @@
 							"port": "3000",
 							"path": [
 								"books",
-								"12",
+								"1",
 								"authors"
 							]
 						}
@@ -284,7 +284,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\": 7\n}",
+							"raw": "[\n\t{\n\t\t\"id\": 7\n\t},\n\t{\n\t\t\"id\": 8\n\t}\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -292,7 +292,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/books/12/authors",
+							"raw": "http://localhost:3000/books/1/authors",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -300,7 +300,7 @@
 							"port": "3000",
 							"path": [
 								"books",
-								"12",
+								"1",
 								"authors"
 							]
 						}
@@ -313,7 +313,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/books/12/authors/2",
+							"raw": "http://localhost:3000/books/1/authors/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -321,9 +321,127 @@
 							"port": "3000",
 							"path": [
 								"books",
-								"12",
+								"1",
 								"authors",
-								"2"
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Get profile",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "abc123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "sean@banan.se",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get linked Books",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "sean@banan.se",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "abc123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/profile/books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profile",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Link Books",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "sean@banan.se",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "abc123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"id\": 7\n\t},\n\t{\n\t\t\"id\": 8\n\t}\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/profile/books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profile",
+								"books"
 							]
 						}
 					},
@@ -359,7 +477,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/publishers/2",
+							"raw": "http://localhost:3000/publishers/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -367,7 +485,7 @@
 							"port": "3000",
 							"path": [
 								"publishers",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -416,7 +534,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/publishers/2",
+							"raw": "http://localhost:3000/publishers/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -424,7 +542,7 @@
 							"port": "3000",
 							"path": [
 								"publishers",
-								"2"
+								"6"
 							]
 						}
 					},
@@ -466,6 +584,34 @@
 					"port": "3000",
 					"path": [
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Cicci Citron\",\n  \"email\": \"cicci@citron.se\",\n  \"password\": \"abc123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register"
 					]
 				}
 			},
