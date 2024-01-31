@@ -1,6 +1,6 @@
 import express from "express";
-import { body } from "express-validator";
 import { index, show, store, update, destroy } from "../controllers/author_controller";
+import { createAuthorRules, updateAuthorRules } from "../validations/author_rules";
 const router = express.Router();
 
 /**
@@ -22,21 +22,14 @@ router.get("/:authorId", show);
  *
  * Create a author
  */
-router.post("/", [
-	body("name")
-		.isString().withMessage("has to be a string").bail()
-		.isLength({ min: 3, max: 191 }).withMessage("has to be 3-191 chars long"),
-	body("birthyear")
-		.optional()
-		.isInt().withMessage("has to be a integer"),
-], store);
+router.post("/", createAuthorRules, store);
 
 /**
  * PATCH /authors/:authorId
  *
  * Update a author
  */
-router.patch("/:authorId", update);
+router.patch("/:authorId", updateAuthorRules, update);
 
 /**
  * DELETE /authors/:authorId

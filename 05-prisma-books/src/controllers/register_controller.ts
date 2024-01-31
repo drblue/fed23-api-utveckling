@@ -6,6 +6,8 @@ import Debug from "debug";
 import { Request, Response } from "express";
 import { matchedData, validationResult } from "express-validator";
 import prisma from "../prisma";
+import { createUser } from "../services/user_service";
+import { CreateUser } from "../types/User.types";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:register_controller");
@@ -35,15 +37,14 @@ export const register = async (req: Request, res: Response) => {
 	debug("plaintext password:", validatedData.password);
 	debug("hashed password:", hashed_password);
 
+	const data = {
+		...validatedData,
+		password: hashed_password,
+	} as CreateUser;
+
 	// Store the user in the database
 	try {
-		const user = await prisma.user.create({
-			data: {
-				name: validatedData.name,
-				email: validatedData.email,
-				password: hashed_password,
-			},
-		});
+		const user = await createUser(data);
 
 		// Respond with 201 Created + status success
 		res.status(201).send({ status: "success", data: user });

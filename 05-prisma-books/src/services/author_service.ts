@@ -18,13 +18,13 @@ export const getAuthors = async () => {
  */
 export const getAuthor = async (authorId: number) => {
 	return await prisma.author.findUniqueOrThrow({
-			where: {
-				id: authorId,
-			},
-			include: {
-				books: true,
-			},
-		});
+		where: {
+			id: authorId,
+		},
+		include: {
+			books: true,
+		},
+	});
 }
 
 /**
@@ -34,8 +34,8 @@ export const getAuthor = async (authorId: number) => {
  */
 export const createAuthor = async (data: CreateAuthor) => {
 	return await prisma.author.create({
-			data,
-		});
+		data,
+	});
 }
 
 /**
@@ -47,11 +47,11 @@ export const createAuthor = async (data: CreateAuthor) => {
  */
 export const updateAuthor = async (authorId: number, data: UpdateAuthor) => {
 	return prisma.author.update({
-			where: {
-				id: authorId,
-			},
-			data,
-		});
+		where: {
+			id: authorId,
+		},
+		data,
+	});
 }
 
 /**
@@ -61,8 +61,8 @@ export const updateAuthor = async (authorId: number, data: UpdateAuthor) => {
  */
 export const deleteAuthor = async (authorId: number) => {
 	return await prisma.author.delete({
-			where: {
-				id: authorId,
-			}
-		});
+		where: {
+			id: authorId,
+		}
+	});
 }

@@ -4,9 +4,8 @@
 import Debug from "debug";
 import { Request, Response } from "express";
 import { matchedData, validationResult } from "express-validator";
-import prisma from "../prisma";
 import { createAuthor, deleteAuthor, getAuthor, getAuthors, updateAuthor } from "../services/author_service";
-import { CreateAuthor } from "../types/Author.types";
+import { CreateAuthor, UpdateAuthor } from "../types/Author.types";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:author_controller");
@@ -81,8 +80,21 @@ export const store = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
 	const authorId = Number(req.params.authorId);
 
+	// Check for any validation errors
+	const validationErrors = validationResult(req);
+	if (!validationErrors.isEmpty()) {
+		res.status(400).send({
+			status: "fail",
+			data: validationErrors.array(),
+		});
+		return;
+	}
+
+	// Get only the validated data
+	const validatedData = matchedData(req) as UpdateAuthor;
+
 	try {
-		const author = await updateAuthor(authorId, req.body);
+		const author = await updateAuthor(authorId, validatedData);
 		res.send({ status: "success", data: author });
 
 	} catch (err: any) {

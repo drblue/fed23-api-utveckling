@@ -3,7 +3,9 @@
  */
 import Debug from "debug";
 import { Request, Response } from "express";
-import prisma from "../prisma";
+import { addAuthorToBook, createBook, deleteBook, getBook, getBooks, removeAuthorFromBook, updateBook } from "../services/book_service";
+import { matchedData, validationResult } from "express-validator";
+import { CreateBook, UpdateBook } from "../types/Book.types";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:book_controller");
@@ -13,7 +15,7 @@ const debug = Debug("prisma-books:book_controller");
  */
 export const index = async (req: Request, res: Response) => {
 	try {
-		const books = await prisma.book.findMany();
+		const books = await getBooks();
 		res.send({ status: "success", data: books });
 
 	} catch (err) {
@@ -29,15 +31,7 @@ export const show = async (req: Request, res: Response) => {
 	const bookId = Number(req.params.bookId);
 
 	try {
-		const book = await prisma.book.findUniqueOrThrow({
-			where: {
-				id: bookId,
-			},
-			include: {
-				authors: true,
-				publisher: true,
-			},
-		});
+		const book = await getBook(bookId);
 		res.send({ status: "success", data: book });
 
 	} catch (err: any) {
@@ -56,10 +50,21 @@ export const show = async (req: Request, res: Response) => {
  * Create a book
  */
 export const store = async (req: Request, res: Response) => {
-	try {
-		const book = await prisma.book.create({
-			data: req.body,
+	// Check for any validation errors
+	const validationErrors = validationResult(req);
+	if (!validationErrors.isEmpty()) {
+		res.status(400).send({
+			status: "fail",
+			data: validationErrors.array(),
 		});
+		return;
+	}
+
+	// Get only the validated data
+	const validatedData = matchedData(req) as CreateBook;
+
+	try {
+		const book = await createBook(validatedData);
 		res.status(201).send({ status: "success", data: book });
 
 	} catch (err) {
@@ -74,13 +79,21 @@ export const store = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
 	const bookId = Number(req.params.bookId);
 
-	try {
-		const book = await prisma.book.update({
-			where: {
-				id: bookId,
-			},
-			data: req.body,
+	// Check for any validation errors
+	const validationErrors = validationResult(req);
+	if (!validationErrors.isEmpty()) {
+		res.status(400).send({
+			status: "fail",
+			data: validationErrors.array(),
 		});
+		return;
+	}
+
+	// Get only the validated data
+	const validatedData = matchedData(req) as UpdateBook;
+
+	try {
+		const book = await updateBook(bookId, validatedData);
 		res.status(200).send({ status: "success", data: book });
 
 	} catch (err: any) {
@@ -101,11 +114,7 @@ export const destroy = async (req: Request, res: Response) => {
 	const bookId = Number(req.params.bookId);
 
 	try {
-		await prisma.book.delete({
-			where: {
-				id: bookId,
-			}
-		});
+		await deleteBook(bookId);
 		res.status(200).send({ status: "success", data: {} });
 
 	} catch (err: any) {
@@ -126,19 +135,7 @@ export const addAuthor = async (req: Request, res: Response) => {
 	const bookId = Number(req.params.bookId);
 
 	try {
-		const book = await prisma.book.update({
-			where: {
-				id: bookId,
-			},
-			data: {
-				authors: {
-					connect: req.body,  // { "id": 7 }
-				},
-			},
-			include: {
-				authors: true,
-			}
-		});
+		const book = await addAuthorToBook(bookId, req.body);
 		res.status(201).send({ status: "success", data: book });
 
 	} catch (err: any) {
@@ -160,21 +157,7 @@ export const removeAuthor = async (req: Request, res: Response) => {
 	const authorId = Number(req.params.authorId);
 
 	try {
-		const book = await prisma.book.update({
-			where: {
-				id: bookId,
-			},
-			data: {
-				authors: {
-					disconnect: {
-						id: authorId,
-					},
-				},
-			},
-			include: {
-				authors: true,
-			}
-		});
+		const book = await removeAuthorFromBook(bookId, authorId);
 		res.status(200).send({ status: "success", data: book });
 
 	} catch (err: any) {

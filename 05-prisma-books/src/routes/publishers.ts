@@ -1,5 +1,6 @@
 import express from "express";
 import { index, show, store, update, destroy } from "../controllers/publisher_controller";
+import { createPublisherRules, updatePublisherRules } from "../validations/publisher_rules";
 const router = express.Router();
 
 /**
@@ -21,14 +22,14 @@ router.get("/:publisherId", show);
  *
  * Create a publisher
  */
-router.post("/", store);
+router.post("/", createPublisherRules, store);
 
 /**
  * PATCH /publishers/:publisherId
  *
  * Update a publisher
  */
-router.patch("/:publisherId", update);
+router.patch("/:publisherId", updatePublisherRules, update);
 
 /**
  * DELETE /publishers/:publisherId

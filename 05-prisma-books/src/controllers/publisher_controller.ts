@@ -3,13 +3,16 @@
  */
 import { Request, Response } from "express";
 import prisma from "../prisma";
+import { getPublishers, getPublisher, createPublisher, updatePublisher, deletePublisher } from "../services/publisher_service";
+import { matchedData, validationResult } from "express-validator";
+import { CreatePublisher, UpdatePublisher } from "../types/Publisher.types";
 
 /**
  * Get all publishers
  */
 export const index = async (req: Request, res: Response) => {
 	try {
-		const publishers = await prisma.publisher.findMany();
+		const publishers = await getPublishers();
 		res.send({ status: "success", data: publishers });
 
 	} catch (err) {
@@ -25,14 +28,7 @@ export const show = async (req: Request, res: Response) => {
 	const publisherId = Number(req.params.publisherId);
 
 	try {
-		const publisher = await prisma.publisher.findUniqueOrThrow({
-			where: {
-				id: publisherId,
-			},
-			include: {
-				books: true,
-			},
-		});
+		const publisher = await getPublisher(publisherId);
 		res.send({ status: "success", data: publisher });
 
 	} catch (err: any) {
@@ -52,10 +48,21 @@ export const show = async (req: Request, res: Response) => {
  * Create a publisher
  */
 export const store = async (req: Request, res: Response) => {
-	try {
-		const publisher = await prisma.publisher.create({
-			data: req.body,
+	// Check for any validation errors
+	const validationErrors = validationResult(req);
+	if (!validationErrors.isEmpty()) {
+		res.status(400).send({
+			status: "fail",
+			data: validationErrors.array(),
 		});
+		return;
+	}
+
+	// Get only the validated data
+	const validatedData = matchedData(req) as CreatePublisher;
+
+	try {
+		const publisher = await createPublisher(validatedData);
 		res.status(201).send({ status: "success", data: publisher });
 
 	} catch (err) {
@@ -70,13 +77,21 @@ export const store = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
 	const publisherId = Number(req.params.publisherId);
 
-	try {
-		const publisher = await prisma.publisher.update({
-			where: {
-				id: publisherId,
-			},
-			data: req.body,
+	// Check for any validation errors
+	const validationErrors = validationResult(req);
+	if (!validationErrors.isEmpty()) {
+		res.status(400).send({
+			status: "fail",
+			data: validationErrors.array(),
 		});
+		return;
+	}
+
+	// Get only the validated data
+	const validatedData = matchedData(req) as UpdatePublisher;
+
+	try {
+		const publisher = await updatePublisher(publisherId, validatedData);
 		res.status(200).send({ status: "success", data: publisher });
 
 	} catch (err: any) {
@@ -98,11 +113,7 @@ export const destroy = async (req: Request, res: Response) => {
 	const publisherId = Number(req.params.publisherId);
 
 	try {
-		await prisma.publisher.delete({
-			where: {
-				id: publisherId,
-			}
-		});
+		await deletePublisher(publisherId);
 		res.status(200).send({ status: "success", data: {} });
 
 	} catch (err: any) {

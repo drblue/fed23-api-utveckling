@@ -1,5 +1,6 @@
 import express from "express";
 import { addAuthor, destroy, index, removeAuthor, show, store, update } from "../controllers/book_controller";
+import { createBookRules, updateBookRules } from "../validations/book_rules";
 const router = express.Router();
 
 /**
@@ -21,14 +22,14 @@ router.get("/:bookId", show);
  *
  * Create a book
  */
-router.post("/", store);
+router.post("/", createBookRules, store);
 
 /**
  * PATCH /books/:bookId
  *
  * Update a book
  */
-router.patch("/:bookId", update);
+router.patch("/:bookId", updateBookRules, update);
 
 /**
  * DELETE /books/:bookId
