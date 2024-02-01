@@ -1,5 +1,5 @@
 import express from "express";
-import { addBooks, getBooks, getProfile } from "../controllers/profile_controller";
+import { addBooks, getBooks, getProfile, removeBook } from "../controllers/profile_controller";
 const router = express.Router();
 
 /**
@@ -22,5 +22,12 @@ router.get("/books", getBooks);
  * Link books to the authenticated user
  */
 router.post("/books", addBooks);
+
+/**
+ * DELETE /profile/books/:bookId
+ *
+ * Unlink book from the authenticated user
+ */
+router.delete("/books/:bookId", removeBook);
 
 export default router;
