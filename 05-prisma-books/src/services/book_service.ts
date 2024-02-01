@@ -89,6 +89,9 @@ export const addAuthorToBook = async (bookId: number, authorIds: AuthorId | Auth
 				connect: authorIds,
 			},
 		},
+		include: {
+			authors: true,
+		}
 	});
 }
 

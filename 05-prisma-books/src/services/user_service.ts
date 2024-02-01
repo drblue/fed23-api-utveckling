@@ -27,3 +27,24 @@ export const createUser = async (data: CreateUser) => {
 		data,
 	});
 }
+
+/**
+ * Get a User's Books
+ *
+ * @param userId ID of User
+ */
+export const getUserBooks = async (userId: number) => {
+	const user = await prisma.user.findUniqueOrThrow({
+		select: {
+			books: true,
+		},
+		where: {
+			id: userId,
+		},
+		// include: {
+		// 	books: true,
+		// },
+	});
+
+	return user.books;
+}
