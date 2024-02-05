@@ -8,6 +8,7 @@ import { matchedData, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import { createUser, getUserByEmail } from "../services/user_service";
 import { CreateUser } from "../types/User.types";
+import { JwtPayload } from "../types/Token.types";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:register_controller");
@@ -39,7 +40,7 @@ export const login = async (req: Request, res: Response) => {
 	}
 
 	// construct jwt-payload
-	const payload = {
+	const payload: JwtPayload = {
 		sub: user.id,
 		name: user.name,
 		email: user.email,

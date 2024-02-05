@@ -5,7 +5,7 @@ import profileRoutes from "./profile";
 import publisherRoutes from "./publishers";
 import { login, register } from "../controllers/user_controller";
 import { createUserRules } from "../validations/user_rules";
-import { basic } from "../middlewares/auth/basic";
+import { validateAccessToken } from "../middlewares/auth/jwt";
 const router = express.Router();
 
 /**
@@ -49,7 +49,7 @@ router.post("/register", createUserRules, register);
 /**
  * /profile 👮🏻‍♂️
  */
-router.use("/profile", basic, profileRoutes);
+router.use("/profile", validateAccessToken, profileRoutes);
 
 /**
  * Catch-all route handler
