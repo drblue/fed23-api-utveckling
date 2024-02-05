@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "309cec7f-2e81-4dce-bb21-756e519a2d44",
-		"name": "Books",
+		"_postman_id": "e831a47f-b78b-4237-8415-3202df6433c3",
+		"name": "Books (JWT)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "542474",
-		"_collection_link": "https://interstellar-sunset-7818.postman.co/workspace/FED23~0eb2382f-34c9-4ffd-bb83-b36a2068b4e1/collection/542474-309cec7f-2e81-4dce-bb21-756e519a2d44?action=share&source=collection_link&creator=542474"
+		"_collection_link": "https://interstellar-sunset-7818.postman.co/workspace/FED23~0eb2382f-34c9-4ffd-bb83-b36a2068b4e1/collection/542474-e831a47f-b78b-4237-8415-3202df6433c3?action=share&source=collection_link&creator=542474"
 	},
 	"item": [
 		{
@@ -454,19 +454,7 @@
 				}
 			],
 			"auth": {
-				"type": "basic",
-				"basic": [
-					{
-						"key": "username",
-						"value": "jn@thehiveresistance.com",
-						"type": "string"
-					},
-					{
-						"key": "password",
-						"value": "abc123",
-						"type": "string"
-					}
-				]
+				"type": "bearer"
 			},
 			"event": [
 				{
@@ -621,19 +609,7 @@
 				}
 			],
 			"auth": {
-				"type": "basic",
-				"basic": [
-					{
-						"key": "username",
-						"value": "kevin@kiwi.se",
-						"type": "string"
-					},
-					{
-						"key": "password",
-						"value": "abc123",
-						"type": "string"
-					}
-				]
+				"type": "bearer"
 			},
 			"event": [
 				{
@@ -758,19 +734,7 @@
 				}
 			],
 			"auth": {
-				"type": "basic",
-				"basic": [
-					{
-						"key": "username",
-						"value": "sean@banan.se",
-						"type": "string"
-					},
-					{
-						"key": "password",
-						"value": "abc123",
-						"type": "string"
-					}
-				]
+				"type": "bearer"
 			},
 			"event": [
 				{
@@ -928,6 +892,34 @@
 					"port": "3000",
 					"path": [
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"sean@banan.se\",\n  \"password\": \"abc123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
 					]
 				}
 			},
