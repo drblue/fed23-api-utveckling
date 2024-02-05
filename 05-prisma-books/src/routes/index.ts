@@ -3,7 +3,7 @@ import authorRoutes from "./authors";
 import bookRoutes from "./books";
 import profileRoutes from "./profile";
 import publisherRoutes from "./publishers";
-import { register } from "../controllers/register_controller";
+import { register } from "../controllers/user_controller";
 import { createUserRules } from "../validations/user_rules";
 import { basic } from "../middlewares/auth/basic";
 const router = express.Router();
