@@ -3,7 +3,7 @@ import authorRoutes from "./authors";
 import bookRoutes from "./books";
 import profileRoutes from "./profile";
 import publisherRoutes from "./publishers";
-import { register } from "../controllers/user_controller";
+import { login, register } from "../controllers/user_controller";
 import { createUserRules } from "../validations/user_rules";
 import { basic } from "../middlewares/auth/basic";
 const router = express.Router();
@@ -31,6 +31,13 @@ router.use("/books", bookRoutes);
  * /publishers
  */
 router.use("/publishers", publisherRoutes);
+
+/**
+ * POST /login
+ *
+ * Log in a user.
+ */
+router.post("/login", login);
 
 /**
  * POST /register
