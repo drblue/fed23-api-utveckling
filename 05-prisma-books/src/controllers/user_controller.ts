@@ -51,7 +51,9 @@ export const login = async (req: Request, res: Response) => {
 		debug("ACCESS_TOKEN_SECRET missing in environment");
 		return res.status(500).send({ status: "error", message: "No access token secret defined"});
 	}
-	const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+	const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+		expiresIn: process.env.ACCESS_TOKEN_LIFETIME || "4h",
+	});
 
 	// respond with access-token
 	res.send({
@@ -83,7 +85,7 @@ export const register = async (req: Request, res: Response) => {
 	debug("validatedData: %O", validatedData);
 
 	// Calculate a hash + salt for the password
-	const hashed_password = await bcrypt.hash(validatedData.password, 10);
+	const hashed_password = await bcrypt.hash(validatedData.password, process.env.SALT_ROUNDS || 10);
 	debug("plaintext password:", validatedData.password);
 	debug("hashed password:", hashed_password);
 
