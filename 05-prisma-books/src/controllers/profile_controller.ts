@@ -13,7 +13,7 @@ const debug = Debug("prisma-books:profile_controller");
  */
 export const getProfile = async (req: Request, res: Response) => {
 	// If someone ever removes authentication from the route for this method, yell at them
-	if (!req.user) {
+	if (!req.token) {
 		throw new Error("Trying to access autenticated user but none exists. Did you remove autentication from this route? 🤬");
 	}
 
@@ -21,9 +21,9 @@ export const getProfile = async (req: Request, res: Response) => {
 	res.send({
 		status: "success",
 		data: {
-			id: req.user.id,
-			name: req.user.name,
-			email: req.user.email,
+			id: req.token.sub,
+			name: req.token.name,
+			email: req.token.email,
 		},
 	});
 }
@@ -33,11 +33,11 @@ export const getProfile = async (req: Request, res: Response) => {
  */
 export const getBooks = async (req: Request, res: Response) => {
 	// If someone ever removes authentication from the route for this method, yell at them
-	if (!req.user) {
+	if (!req.token) {
 		throw new Error("Trying to access autenticated user but none exists. Did you remove autentication from this route? 🤬");
 	}
 
-	const userId = req.user.id;
+	const userId = req.token.sub;
 
 	try {
 		const books = await getUserBooks(userId);
@@ -57,11 +57,11 @@ export const getBooks = async (req: Request, res: Response) => {
  */
 export const addBooks = async (req: Request, res: Response) => {
 	// If someone ever removes authentication from the route for this method, yell at them
-	if (!req.user) {
+	if (!req.token) {
 		throw new Error("Trying to access autenticated user but none exists. Did you remove autentication from this route? 🤬");
 	}
 
-	const userId = req.user.id;
+	const userId = req.token.sub;
 
 	try {
 		const books = await addUserBooks(userId, req.body);
@@ -81,11 +81,11 @@ export const addBooks = async (req: Request, res: Response) => {
  */
 export const removeBook = async (req: Request, res: Response) => {
 	// If someone ever removes authentication from the route for this method, yell at them
-	if (!req.user) {
+	if (!req.token) {
 		throw new Error("Trying to access autenticated user but none exists. Did you remove autentication from this route? 🤬");
 	}
 
-	const userId = req.user.id;
+	const userId = req.token.sub;
 	const bookId = Number(req.params.bookId);
 
 	try {
