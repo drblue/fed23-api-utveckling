@@ -85,7 +85,7 @@ export const register = async (req: Request, res: Response) => {
 	debug("validatedData: %O", validatedData);
 
 	// Calculate a hash + salt for the password
-	const hashed_password = await bcrypt.hash(validatedData.password, process.env.SALT_ROUNDS || 10);
+	const hashed_password = await bcrypt.hash(validatedData.password, Number(process.env.SALT_ROUNDS) || 10);
 	debug("plaintext password:", validatedData.password);
 	debug("hashed password:", hashed_password);
 
