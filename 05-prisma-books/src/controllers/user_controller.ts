@@ -66,8 +66,6 @@ export const login = async (req: Request, res: Response) => {
 
 /**
  * Register a new user
- *
-* @todo validate incoming data and bail if validation fails
  */
 export const register = async (req: Request, res: Response) => {
 	// Validate incoming data
