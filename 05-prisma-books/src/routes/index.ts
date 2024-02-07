@@ -3,7 +3,7 @@ import authorRoutes from "./authors";
 import bookRoutes from "./books";
 import profileRoutes from "./profile";
 import publisherRoutes from "./publishers";
-import { login, register } from "../controllers/user_controller";
+import { login, refresh, register } from "../controllers/user_controller";
 import { createUserRules } from "../validations/user_rules";
 import { validateAccessToken } from "../middlewares/auth/jwt";
 const router = express.Router();
@@ -38,6 +38,13 @@ router.use("/publishers", publisherRoutes);
  * Log in a user.
  */
 router.post("/login", login);
+
+/**
+ * POST /refresh
+ *
+ * Refresh token.
+ */
+router.post("/refresh", refresh);
 
 /**
  * POST /register

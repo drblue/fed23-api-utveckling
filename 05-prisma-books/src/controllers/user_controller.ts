@@ -6,7 +6,7 @@ import Debug from "debug";
 import { Request, Response } from "express";
 import { matchedData, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
-import { createUser, getUserByEmail } from "../services/user_service";
+import { createUser, getUserByEmail, getUserById } from "../services/user_service";
 import { CreateUser } from "../types/User.types";
 import { JwtPayload, JwtRefreshPayload } from "../types/Token.types";
 
@@ -77,6 +77,78 @@ export const login = async (req: Request, res: Response) => {
 			refresh_token,
 		},
 	});
+}
+
+/**
+ * Refresh token
+ *
+ * Receives a refresh-token and issues a new access-token.
+ *
+ * Authorization: Bearer <refresh-token>
+ */
+export const refresh = async (req: Request, res: Response) => {
+	// 1. Make sure Authorization header exists, otherwise bail 🛑
+	if (!req.headers.authorization) {
+		debug("Authorization header missing");
+		return res.status(401).send({ status: "fail", message: "Authorization required" });
+	}
+
+	// 2. Split Authorization header on ` `
+	// "Bearer <token>"
+	debug("Authorization header: %o", req.headers.authorization);
+	const [authSchema, token] = req.headers.authorization.split(" ");
+
+	// 3. Check that Authorization scheme is "Bearer", otherwise bail 🛑
+	if (authSchema.toLowerCase() !== "bearer") {
+		debug("Authorization schema isn't Bearer");
+		return res.status(401).send({ status: "fail", message: "Authorization required" });
+	}
+
+	// 4. Verify refresh-token and extract refresh-payload, otherwise bail 🛑
+	if (!process.env.REFRESH_TOKEN_SECRET) {
+		debug("REFRESH_TOKEN_SECRET missing in environment");
+		return res.status(500).send({ status: "error", message: "No refresh token secret defined"});
+	}
+	try {
+		// Verify token
+		const refreshPayload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET) as unknown as JwtRefreshPayload;
+		debug("Refresh Payload: %O", refreshPayload);
+
+		// 5. Get user from database (by id)
+		const user = await getUserById(refreshPayload.sub);
+		if (!user) {
+			debug("User could not be found 🔎");
+			return res.status(500).send({ status: "error", message: "Access denied"});
+		}
+
+		// 6. Construct access-token payload
+		const payload: JwtPayload = {
+			sub: user.id,
+			name: user.name,
+			email: user.email,
+		}
+
+		// 7. Issue new access-token
+		if (!process.env.ACCESS_TOKEN_SECRET) {
+			debug("ACCESS_TOKEN_SECRET missing in environment");
+			return res.status(500).send({ status: "error", message: "No access token secret defined"});
+		}
+		const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+			expiresIn: process.env.ACCESS_TOKEN_LIFETIME || "4h",
+		});
+
+		// 8. Respond with new access_token
+		res.send({
+			status: "success",
+			data: {
+				access_token,
+			},
+		});
+
+	} catch (err) {
+		debug("JWT Verify failed: %O", err);
+		return res.status(401).send({ status: "fail", message: "Authorization required" });
+	}
 }
 
 /**
