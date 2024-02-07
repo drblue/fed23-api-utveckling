@@ -7,3 +7,5 @@ export type JwtPayload = {
 	name: string
 	email: string
 }
+
+export type JwtRefreshPayload = Pick<JwtPayload, "sub">;

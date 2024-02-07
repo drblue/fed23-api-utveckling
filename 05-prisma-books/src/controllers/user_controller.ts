@@ -8,7 +8,7 @@ import { matchedData, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import { createUser, getUserByEmail } from "../services/user_service";
 import { CreateUser } from "../types/User.types";
-import { JwtPayload } from "../types/Token.types";
+import { JwtPayload, JwtRefreshPayload } from "../types/Token.types";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:register_controller");
@@ -55,11 +55,26 @@ export const login = async (req: Request, res: Response) => {
 		expiresIn: process.env.ACCESS_TOKEN_LIFETIME || "4h",
 	});
 
+	// construct jwt refresh-payload
+	const refreshPayload: JwtRefreshPayload = {
+		sub: user.id,
+	}
+
+	// sign payload with refresh-token secret and get refresh-token
+	if (!process.env.REFRESH_TOKEN_SECRET) {
+		debug("REFRESH_TOKEN_SECRET missing in environment");
+		return res.status(500).send({ status: "error", message: "No refresh token secret defined"});
+	}
+	const refresh_token = jwt.sign(refreshPayload, process.env.REFRESH_TOKEN_SECRET, {
+		expiresIn: process.env.REFRESH_TOKEN_LIFETIME || "1d",
+	});
+
 	// respond with access-token
 	res.send({
 		status: "success",
 		data: {
 			access_token,
+			refresh_token,
 		},
 	});
 }
