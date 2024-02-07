@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Read port to start server on from `.env`, otherwise default to port 3000
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 /**
  * Create HTTP server.
