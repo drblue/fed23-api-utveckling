@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import Debug from "debug";
 import { Request, Response, NextFunction } from "express";
 import { getUserByEmail } from "../../services/user_service";
+import { extractAndValidateAuthHeader } from "../../helpers/auth_helper";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:basic");
@@ -12,24 +13,15 @@ const debug = Debug("prisma-books:basic");
 export const basic = async (req: Request, res: Response, next: NextFunction) => {
 	debug("Hello from auth/basic! 🙋🏽");
 
-	// 1. Make sure Authorization header exists, otherwise bail 🛑
-	if (!req.headers.authorization) {
-		debug("Authorization header missing");
-		return res.status(401).send({ status: "fail", message: "Authorization required" });
-	}
+	let base64Payload: string; // yeah this is a ful-hack
 
-	// 2. Split Authorization header on ` `
-	// "Basic am5AdGhlaGl2ZXJlc2lzdGFuY2UuY29tOmFiYzEyMw=="
-	// =>
-	// [0] => "Basic"
-	// [1] => "am5AdGhlaGl2ZXJlc2lzdGFuY2UuY29tOmFiYzEyMw=="
-	debug("Authorization header: %o", req.headers.authorization);
-	const [authSchema, base64Payload] = req.headers.authorization.split(" ");
-
-	// 3. Check that Authorization scheme is "Basic", otherwise bail 🛑
-	if (authSchema.toLowerCase() !== "basic") {
-		debug("Authorization schema isn't Basic");
-		return res.status(401).send({ status: "fail", message: "Authorization required" });
+	try {
+		base64Payload = extractAndValidateAuthHeader(req, "Basic");
+	} catch (err) {
+		if (err instanceof Error) {
+			return res.status(401).send({ status: "fail", message: err.message });
+		}
+		return res.status(401).send({ status: "fail", message: "Unknown authorization error" });
 	}
 
 	// 4. Decode credentials from base64 => ascii

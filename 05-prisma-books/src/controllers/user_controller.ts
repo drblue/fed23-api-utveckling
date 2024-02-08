@@ -9,6 +9,7 @@ import jwt from "jsonwebtoken";
 import { createUser, getUserByEmail, getUserById } from "../services/user_service";
 import { CreateUser } from "../types/User.types";
 import { JwtPayload, JwtRefreshPayload } from "../types/Token.types";
+import { extractAndValidateAuthHeader } from "../helpers/auth_helper";
 
 // Create a new debug instance
 const debug = Debug("prisma-books:register_controller");
@@ -87,21 +88,15 @@ export const login = async (req: Request, res: Response) => {
  * Authorization: Bearer <refresh-token>
  */
 export const refresh = async (req: Request, res: Response) => {
-	// 1. Make sure Authorization header exists, otherwise bail 🛑
-	if (!req.headers.authorization) {
-		debug("Authorization header missing");
-		return res.status(401).send({ status: "fail", message: "Authorization required" });
-	}
+	let token: string; // yeah this is a ful-hack
 
-	// 2. Split Authorization header on ` `
-	// "Bearer <token>"
-	debug("Authorization header: %o", req.headers.authorization);
-	const [authSchema, token] = req.headers.authorization.split(" ");
-
-	// 3. Check that Authorization scheme is "Bearer", otherwise bail 🛑
-	if (authSchema.toLowerCase() !== "bearer") {
-		debug("Authorization schema isn't Bearer");
-		return res.status(401).send({ status: "fail", message: "Authorization required" });
+	try {
+		token = extractAndValidateAuthHeader(req, "Bearer");
+	} catch (err) {
+		if (err instanceof Error) {
+			return res.status(401).send({ status: "fail", message: err.message });
+		}
+		return res.status(401).send({ status: "fail", message: "Unknown authorization error" });
 	}
 
 	// 4. Verify refresh-token and extract refresh-payload, otherwise bail 🛑

@@ -18,7 +18,10 @@ export const validateAccessToken = async (req: Request, res: Response, next: Nex
 	try {
 		token = extractAndValidateAuthHeader(req, "Bearer");
 	} catch (err) {
-		return res.status(401).send({ status: "fail", message: err });
+		if (err instanceof Error) {
+			return res.status(401).send({ status: "fail", message: err.message });
+		}
+		return res.status(401).send({ status: "fail", message: "Unknown authorization error" });
 	}
 
 	// 4. Verify token and attach payload to request, otherwise bail 🛑
