@@ -1,5 +1,6 @@
 import express from "express";
 import { index, show, store, update, destroy } from "../controllers/author_controller";
+import validateRequest from "../middlewares/validate_request";
 import { createAuthorRules, updateAuthorRules } from "../validations/author_rules";
 const router = express.Router();
 
@@ -22,14 +23,14 @@ router.get("/:authorId", show);
  *
  * Create a author
  */
-router.post("/", createAuthorRules, store);
+router.post("/", createAuthorRules, validateRequest, store);
 
 /**
  * PATCH /authors/:authorId
  *
  * Update a author
  */
-router.patch("/:authorId", updateAuthorRules, update);
+router.patch("/:authorId", updateAuthorRules, validateRequest, update);
 
 /**
  * DELETE /authors/:authorId

@@ -1,5 +1,6 @@
 import express from "express";
 import { index, show, store, update, destroy } from "../controllers/publisher_controller";
+import validateRequest from "../middlewares/validate_request";
 import { createPublisherRules, updatePublisherRules } from "../validations/publisher_rules";
 const router = express.Router();
 
@@ -22,14 +23,14 @@ router.get("/:publisherId", show);
  *
  * Create a publisher
  */
-router.post("/", createPublisherRules, store);
+router.post("/", createPublisherRules, validateRequest, store);
 
 /**
  * PATCH /publishers/:publisherId
  *
  * Update a publisher
  */
-router.patch("/:publisherId", updatePublisherRules, update);
+router.patch("/:publisherId", updatePublisherRules, validateRequest, update);
 
 /**
  * DELETE /publishers/:publisherId

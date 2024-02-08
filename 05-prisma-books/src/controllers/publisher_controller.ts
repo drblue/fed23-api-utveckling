@@ -48,16 +48,6 @@ export const show = async (req: Request, res: Response) => {
  * Create a publisher
  */
 export const store = async (req: Request, res: Response) => {
-	// Check for any validation errors
-	const validationErrors = validationResult(req);
-	if (!validationErrors.isEmpty()) {
-		res.status(400).send({
-			status: "fail",
-			data: validationErrors.array(),
-		});
-		return;
-	}
-
 	// Get only the validated data
 	const validatedData = matchedData(req) as CreatePublisher;
 
@@ -76,16 +66,6 @@ export const store = async (req: Request, res: Response) => {
  */
 export const update = async (req: Request, res: Response) => {
 	const publisherId = Number(req.params.publisherId);
-
-	// Check for any validation errors
-	const validationErrors = validationResult(req);
-	if (!validationErrors.isEmpty()) {
-		res.status(400).send({
-			status: "fail",
-			data: validationErrors.array(),
-		});
-		return;
-	}
 
 	// Get only the validated data
 	const validatedData = matchedData(req) as UpdatePublisher;

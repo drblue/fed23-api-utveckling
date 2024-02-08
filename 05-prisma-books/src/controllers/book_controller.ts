@@ -50,16 +50,6 @@ export const show = async (req: Request, res: Response) => {
  * Create a book
  */
 export const store = async (req: Request, res: Response) => {
-	// Check for any validation errors
-	const validationErrors = validationResult(req);
-	if (!validationErrors.isEmpty()) {
-		res.status(400).send({
-			status: "fail",
-			data: validationErrors.array(),
-		});
-		return;
-	}
-
 	// Get only the validated data
 	const validatedData = matchedData(req) as CreateBook;
 
@@ -78,16 +68,6 @@ export const store = async (req: Request, res: Response) => {
  */
 export const update = async (req: Request, res: Response) => {
 	const bookId = Number(req.params.bookId);
-
-	// Check for any validation errors
-	const validationErrors = validationResult(req);
-	if (!validationErrors.isEmpty()) {
-		res.status(400).send({
-			status: "fail",
-			data: validationErrors.array(),
-		});
-		return;
-	}
 
 	// Get only the validated data
 	const validatedData = matchedData(req) as UpdateBook;
