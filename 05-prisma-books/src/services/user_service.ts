@@ -3,7 +3,7 @@
  */
 import prisma from "../prisma";
 import { BookId } from "../types/Book.types";
-import { CreateUser } from "../types/User.types";
+import { CreateUser, UpdateUser } from "../types/User.types";
 
 /**
  * Get a User by email
@@ -38,6 +38,22 @@ export const getUserById = async (id: number) => {
  */
 export const createUser = async (data: CreateUser) => {
 	return await prisma.user.create({
+		data,
+	});
+}
+
+/**
+ * Update a user
+ *
+ * @param userId The ID of the User to update
+ * @param data User data
+ * @returns
+ */
+export const updateUser = async (userId: number, data: UpdateUser) => {
+	return await prisma.user.update({
+		where: {
+			id: userId,
+		},
 		data,
 	});
 }

@@ -1,5 +1,7 @@
 import express from "express";
-import { addBooks, getBooks, getProfile, removeBook } from "../controllers/profile_controller";
+import { addBooks, getBooks, getProfile, removeBook, updateProfile } from "../controllers/profile_controller";
+import validateRequest from "../middlewares/validate_request";
+import { updateUserRules } from "../validations/user_rules";
 const router = express.Router();
 
 /**
@@ -8,6 +10,13 @@ const router = express.Router();
  * Get the authenticated user's profile
  */
 router.get("/", getProfile);
+
+/**
+ * UPDATE /profile
+ *
+ * Update the authenticated user's profile
+ */
+router.patch("/", updateUserRules, validateRequest, updateProfile);
 
 /**
  * GET /profile/books
