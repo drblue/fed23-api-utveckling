@@ -155,16 +155,6 @@ export const refresh = async (req: Request, res: Response) => {
  * Register a new user
  */
 export const register = async (req: Request, res: Response) => {
-	// Validate incoming data
-	const validationErrors = validationResult(req);
-	if (!validationErrors.isEmpty()) {
-		res.status(400).send({
-			status: "fail",
-			data: validationErrors.array(),
-		});
-		return;
-	}
-
 	// Get only the validated data from the request
 	const validatedData = matchedData(req);
 	debug("validatedData: %O", validatedData);
