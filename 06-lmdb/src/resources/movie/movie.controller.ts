@@ -10,7 +10,10 @@ const debug = Debug("lmdb:movie.controller");
 export const index = async (req: Request, res: Response) => {
 	try {
 		// Find all movies
-		const movies = await Movie.find({});
+		const movies = await Movie
+			.find({})
+			.sort({ title: 1, release_year: 1 });
+			// .sort("title");
 
 		res.send({
 			status: "success",
