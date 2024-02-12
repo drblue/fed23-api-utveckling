@@ -1,4 +1,5 @@
 import express from "express";
+import movieRouter from "./resources/movie/movie.router";
 const router = express.Router();
 
 /**
@@ -9,6 +10,11 @@ router.get("/", (req, res) => {
 		message: "I AM MOVIE-DB-API, GIFES POPCORN PLZ 🍿",
 	});
 });
+
+/**
+ * /movies
+ */
+router.use("/movies", movieRouter);
 
 /**
  * Catch-all route handler
