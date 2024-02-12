@@ -7,9 +7,19 @@ export interface MovieDocument extends Document {
 }
 
 const MovieSchema: Schema = new Schema<MovieDocument>({
-	title: { type: String, required: true },
-	runtime: Number,
-	release_year: Number,
+	title: {
+		type: String,
+		required: true,
+	},
+	runtime: {
+		type: Number,
+		min: 1,
+	},
+	release_year: {
+		type: Number,
+		min: 1895,
+		max: new Date().getFullYear(),
+	},
 });
 
 export const Movie = model<MovieDocument>("Movie", MovieSchema);
