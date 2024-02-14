@@ -1,4 +1,5 @@
 import { model, Schema, Document } from "mongoose";
+import { PersonDocument } from './../person/person.model';
 
 export interface MovieDocument extends Document {
 	title: string
@@ -6,6 +7,7 @@ export interface MovieDocument extends Document {
 	release_year?: number
 	genres: string[]
 	watched: Date
+	director?: PersonDocument["_id"]
 }
 
 const MovieSchema: Schema = new Schema<MovieDocument>({
@@ -41,6 +43,10 @@ const MovieSchema: Schema = new Schema<MovieDocument>({
 		default() {
 			return Date.now();
 		},
+	},
+	director: {
+		type: Schema.Types.ObjectId,
+		ref: "Person",
 	}
 });
 
