@@ -22,4 +22,9 @@ router.post("/", movieController.store);
  */
 router.patch("/:movieId", movieController.update);
 
+/**
+ * DELETE /movies/:movieId
+ */
+router.delete("/:movieId", movieController.destroy);
+
 export default router;

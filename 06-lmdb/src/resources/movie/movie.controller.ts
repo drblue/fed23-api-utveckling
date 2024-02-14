@@ -121,3 +121,35 @@ export const update = async (req: Request, res: Response) => {
 		});
 	}
 }
+
+/**
+ * Delete a movie
+ */
+export const destroy = async (req: Request, res: Response) => {
+	const movieId = req.params.movieId;
+
+	try {
+		// Delete Movie
+		await Movie.findByIdAndDelete(movieId);
+
+		res.status(200).send({
+			status: "success",
+			data: null,
+		});
+
+	} catch (err) {
+		debug("Error thrown when deleting movie", err);
+		if (err instanceof mongoose.Error.ValidationError) {
+			res.status(400).send({
+				status: "fail",
+				message: err.message,
+			});
+			return;
+		}
+
+		res.status(500).send({
+			status: "error",
+			message: "Error thrown when deleting movie",
+		});
+	}
+}
