@@ -17,4 +17,9 @@ router.get("/:movieId", movieController.show);
  */
 router.post("/", movieController.store);
 
+/**
+ * PATCH /movies/:movieId
+ */
+router.patch("/:movieId", movieController.update);
+
 export default router;
