@@ -36,7 +36,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/movies/65c9e650e70dd61622033af8",
+							"raw": "http://localhost:3000/movies/65cddc9e3d024f9c539feebf",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -44,7 +44,7 @@
 							"port": "3000",
 							"path": [
 								"movies",
-								"65c9e650e70dd61622033af8"
+								"65cddc9e3d024f9c539feebf"
 							]
 						}
 					},
@@ -57,7 +57,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Top Gun: Maverick\",\n\t\"runtime\": 131,\n\t\"director\": \"65cc8f038e2fe5eddcca254d\"\n}",
+							"raw": "{\n\t\"title\": \"Deadpool 3\",\n\t\"runtime\": 133.7,\n\t\"director\": \"65cc8f4a8e2fe5eddcca2557\",\n\t\"actors\": [\n\t\t\"65cc8f4a8e2fe5eddcca2557\",\n\t\t\"65cdd20d2b2cec0c48fc13cc\",\n\t\t\"65cddc853d024f9c539feebc\"\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -86,7 +86,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"runtime\": 152,\n\t\"director\": \"65cc9b79ea7732adab6c74aa\"\n}",
+							"raw": "{\n\t\"runtime\": 152,\n\t\"director\": {{Christopher Nolan}},\n\t\"actors\": [{{Hugh Jackman}}]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,7 +94,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/movies/65c9e650e70dd61622033af8",
+							"raw": "http://localhost:3000/movies/65cddc9e3d024f9c539feebf",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -102,7 +102,7 @@
 							"port": "3000",
 							"path": [
 								"movies",
-								"65c9e650e70dd61622033af8"
+								"65cddc9e3d024f9c539feebf"
 							]
 						}
 					},
@@ -159,7 +159,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/people/65cc8f038e2fe5eddcca254d",
+							"raw": "http://localhost:3000/people/65cddc853d024f9c539feebc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -167,7 +167,7 @@
 							"port": "3000",
 							"path": [
 								"people",
-								"65cc8f038e2fe5eddcca254d"
+								"65cddc853d024f9c539feebc"
 							]
 						}
 					},
@@ -180,7 +180,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Christopher Nolan\"\n}",
+							"raw": "{\n\t\"_id\": \"65cc9b79ea7732adab6c74aa\",\n\t\"name\": \"Christopher Nolan\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -197,6 +197,55 @@
 							"path": [
 								"people",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update person",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"runtime\": 152,\n\t\"director\": {{Christopher Nolan}},\n\t\"actors\": [{{Hugh Jackman}}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/movies/65cddc9e3d024f9c539feebf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"movies",
+								"65cddc9e3d024f9c539feebf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete person",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/people/65cc9b79ea7732adab6c74aa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"people",
+								"65cc9b79ea7732adab6c74aa"
 							]
 						}
 					},
@@ -222,6 +271,37 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Christopher Nolan",
+			"value": "\"65cc9b79ea7732adab6c74aa\""
+		},
+		{
+			"key": "Hugh Jackman",
+			"value": "\"65cddc853d024f9c539feebc\"",
+			"type": "string"
 		}
 	]
 }
