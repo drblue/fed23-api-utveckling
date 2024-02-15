@@ -52,6 +52,7 @@ const MovieSchema: Schema = new Schema<MovieDocument>({
 	actors: [{
 		type: Schema.Types.ObjectId,
 		ref: "Person",
+		default: [],
 	}]
 });
 
