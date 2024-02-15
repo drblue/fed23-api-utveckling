@@ -8,6 +8,7 @@ export interface MovieDocument extends Document {
 	genres: string[]
 	watched: Date
 	director?: PersonDocument["_id"]
+	actors?: PersonDocument["_id"][]
 }
 
 const MovieSchema: Schema = new Schema<MovieDocument>({
@@ -47,7 +48,11 @@ const MovieSchema: Schema = new Schema<MovieDocument>({
 	director: {
 		type: Schema.Types.ObjectId,
 		ref: "Person",
-	}
+	},
+	actors: [{
+		type: Schema.Types.ObjectId,
+		ref: "Person",
+	}]
 });
 
 export const Movie = model<MovieDocument>("Movie", MovieSchema);

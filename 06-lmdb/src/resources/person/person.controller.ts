@@ -2,6 +2,7 @@ import Debug from "debug";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { Person } from "./person.model";
+import { Movie } from "../movie/movie.model";
 
 const debug = Debug("lmdb:person.controller");
 
@@ -39,6 +40,12 @@ export const show = async (req: Request, res: Response) => {
 		// Find a single person
 		const person = await Person.findById(personId);
 
+		// Get movies where person is director
+		const directing = await Movie.find({ director: personId }, ["title", "release_year"]);
+
+		// Get movies where person is actor
+		const acting = await Movie.find({ actors: personId }, ["title", "release_year"]);
+
 		// If no person was found, report 404
 		if (!person) {
 			res.status(404).send({ status: "fail", message: "No such person exists" });
@@ -47,7 +54,11 @@ export const show = async (req: Request, res: Response) => {
 
 		res.send({
 			status: "success",
-			data: person,
+			data: {
+				person,
+				directing,
+				acting,
+			}
 		});
 
 	} catch (err) {
