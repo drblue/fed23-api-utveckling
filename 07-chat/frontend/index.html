@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/src/assets/icons/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="/src/assets/scss/style.scss">
+	<title>Chat 3000</title>
+</head>
+
+<body>
+	<div id="app">
+		<div id="start" class="container hide">
+			<form id="username-form">
+				<div class="mb-3">
+					<input type="text" id="username" class="form-control form-control-lg" required placeholder="Who art thou'?">
+				</div>
+
+				<!--
+				<div class="mb-3">
+					<select class="form-select" id="room" required>
+						<option selected>Loading...</option>
+					</select>
+				</div>
+				-->
+
+				<button type="submit" id="connectBtn" class="btn btn-success" disabled>Connect!</button>
+			</form><!-- /#username-form -->
+		</div><!-- /#start -->
+
+		<div id="chat-wrapper" class="">
+			<div id="chat">
+				<h2 id="chat-title">Chat</h2>
+				<div id="message-wrapper">
+					<!-- here is chat -->
+					<ul id="messages">
+						<li class="message own-message">Haj Kaj</li>
+						<li class="message">Hallå Börje</li>
+						<li class="message">Omg you two, shut up</li>
+						<li class="notice">Elvis has left the building</li>
+					</ul><!-- /#messages -->
+				</div><!-- /#messages-wrapper -->
+
+				<form id="message-form">
+					<div class="input-group">
+						<input type="text" id="message" class="form-control" placeholder="Type something nice...">
+						<button type="submit" class="btn btn-success">Send</button>
+					</div><!-- /#input-group-->
+				</form><!-- /#message-form-->
+
+			</div><!-- /#chat -->
+
+			<div id="users">
+				<h2>Users</h2>
+				<ul id="online-users"></ul>
+			</div><!-- /#users -->
+		</div><!-- /#chat-wrapper -->
+	</div><!-- /#app -->
+
+	<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

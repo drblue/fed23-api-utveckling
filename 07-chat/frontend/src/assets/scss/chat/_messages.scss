@@ -1,0 +1,43 @@
+#message-wrapper {
+	flex-grow: 1;
+	overflow-y: scroll;
+}
+
+#messages {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	list-style: none;
+	padding: 0;
+
+	.message {
+		background-color: $message-bg-color;
+		border-radius: 0.75rem;
+		margin: 0.1rem;
+		padding: 0.5rem 0.75rem;
+		align-self: flex-start;
+
+		&.own-message {
+			background-color: $message-you-bg-color;
+			color: white;
+			align-self: flex-end;
+		}
+
+		.user {
+			display: block;
+			font-weight: 700;
+		}
+	}
+
+	.notice {
+		color: $notice-color;
+		font-style: italic;
+	}
+
+	.message,
+	.notice {
+		.time {
+			font-size: 60%;
+		}
+	}
+}
