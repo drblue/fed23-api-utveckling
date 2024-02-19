@@ -21,7 +21,7 @@
 
     /* Compatibility */
     "paths": {
-      "@shared": ["../shared/src"]
+      "@shared/*": ["../shared/*"],
     }
   },
   "include": ["src"]
