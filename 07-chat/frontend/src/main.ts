@@ -1,5 +1,6 @@
 import { io, Socket } from "socket.io-client";
 import {
+	ChatMessageData,
 	ClientToServerEvents,
 	ServerToClientEvents
 } from "@shared/types/SocketTypes";
@@ -28,4 +29,31 @@ socket.on("disconnect", () => {
 // Listen for when the nice server says hello
 socket.on("hello", () => {
 	console.log("🤩 Hello! Is it me you're looking for?");
+});
+
+// Send a message to the server when form is submitted
+messageFormEl.addEventListener("submit", (e) => {
+	e.preventDefault();
+
+	// 💇
+	const trimmedMessage = messageEl.value.trim();
+
+	// If no message, no send
+	if (!trimmedMessage) {
+		return;
+	}
+
+	// Construct message payload
+	const msg: ChatMessageData = {
+		content: trimmedMessage,
+	}
+
+	// Send (emit) the message to the server
+	socket.emit("sendChatMessage", msg);
+
+	console.log("Emitted 'sendChatMessage' event to server", msg);
+
+	// Clear the input field
+	messageEl.value = "";
+	messageEl.focus();
 });

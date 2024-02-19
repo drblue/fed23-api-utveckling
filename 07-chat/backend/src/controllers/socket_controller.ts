@@ -16,6 +16,14 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 	socket.emit("hello");
 	debug("🤩 Said hello to the nice user", socket.id);
 
+	// Listen for incoming chat messages
+	socket.on("sendChatMessage", (msg) => {
+		debug('📨 New chat message', socket.id, msg);
+
+		// Broadcast message to everyone connected EXCEPT the sender
+		socket.broadcast.emit("chatMessage", msg);
+	});
+
 	// Handle user disconnecting
 	socket.on("disconnect", () => {
 		debug("👋🏻 A user disconnected", socket.id);
