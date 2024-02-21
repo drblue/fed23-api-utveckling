@@ -31,6 +31,18 @@ socket.on("hello", () => {
 	console.log("🤩 Hello! Is it me you're looking for?");
 });
 
+// Listen for new chat messages
+socket.on("chatMessage", (msg) => {
+	console.log("📨 YAY SOMEONE WROTE SOMETHING!!!!!!!", msg);
+
+	/**
+	 * @todo 1
+	 * Create a function `addMessageToChat` that takes the
+	 * `msg` object as a parameter and creates a new LI-element,
+	 * sets the content + styling and appends it to `messagesEl`
+	 */
+});
+
 // Send a message to the server when form is submitted
 messageFormEl.addEventListener("submit", (e) => {
 	e.preventDefault();
@@ -50,6 +62,13 @@ messageFormEl.addEventListener("submit", (e) => {
 
 	// Send (emit) the message to the server
 	socket.emit("sendChatMessage", msg);
+
+	/**
+	 * @todo 2
+	 * Extend the `addMessageToChat` function to know if the msg
+	 * was sent by us, and if so add `.own-message` class to the
+	 * LI-element before appending it to `messagesEl`
+	 */
 
 	console.log("Emitted 'sendChatMessage' event to server", msg);
 
