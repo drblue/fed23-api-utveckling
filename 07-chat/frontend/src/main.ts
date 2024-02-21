@@ -41,13 +41,18 @@ const addMessageToChat = (msg: ChatMessageData, ownMessage = false) => {
 		msgEl.classList.add("own-message");
 	}
 
+	// Get human readable time
+	const time = new Date(msg.timestamp).toLocaleTimeString();
+
 	// Set content of the LI element to the message
 	msgEl.innerHTML = ownMessage
 		? `
 			<span class="content">${msg.content}</span>
+			<span class="time">${time}</span>
 		` : `
 			<span class="user">${msg.username}</span>
 			<span class="content">${msg.content}</span>
+			<span class="time">${time}</span>
 		`;
 
 	// Append the LI element to the messages element
@@ -128,6 +133,7 @@ messageFormEl.addEventListener("submit", (e) => {
 	// Construct message payload
 	const msg: ChatMessageData = {
 		content: trimmedMessage,
+		timestamp: Date.now(),
 		username,
 	}
 
