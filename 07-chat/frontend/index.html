@@ -11,7 +11,7 @@
 
 <body>
 	<div id="app">
-		<div id="start" class="container hide">
+		<div id="start" class="container">
 			<form id="username-form">
 				<div class="mb-3">
 					<input type="text" id="username" class="form-control form-control-lg" required placeholder="Who art thou'?">
@@ -25,20 +25,28 @@
 				</div>
 				-->
 
-				<button type="submit" id="connectBtn" class="btn btn-success" disabled>Connect!</button>
+				<button type="submit" id="connectBtn" class="btn btn-success">Connect!</button>
 			</form><!-- /#username-form -->
 		</div><!-- /#start -->
 
-		<div id="chat-wrapper" class="">
+		<div id="chat-wrapper" class="hide">
 			<div id="chat">
 				<h2 id="chat-title">Chat</h2>
 				<div id="message-wrapper">
 					<!-- here is chat -->
 					<ul id="messages">
 						<!--
-						<li class="message own-message">Haj Kaj</li>
-						<li class="message">Hallå Börje</li>
-						<li class="message">Omg you two, shut up</li>
+						<li class="message own-message">
+							<span class="content">Haj Kaj</span>
+						</li>
+						<li class="message">
+							<span class="user">Kaj</span>
+							<span class="content">Hallå Börje</span>
+						</li>
+						<li class="message">
+							<span class="user">Kajan</span>
+							<span class="content">Itt, itt, två</span>
+						</li>
 						<li class="notice">Elvis has left the building</li>
 						-->
 					</ul><!-- /#messages -->
