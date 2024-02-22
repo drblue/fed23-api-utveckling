@@ -1,0 +1,24 @@
+{
+  "rooms": [
+    {
+      "_id": "",
+      "name": "general",
+      "users": [
+        {
+          "_id": "hHm3f8fqK1VZuQRmAAAF",
+          "username": "Agneta"
+        }
+      ]
+    },
+    {
+      "_id": "",
+      "name": "coffee?",
+      "users": [
+        {
+          "_id": "hHm3f8fqK1VZuQRmAAAF",
+          "username": "Agneta"
+        }
+      ]
+    }
+  ]
+}
