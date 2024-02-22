@@ -126,7 +126,7 @@ socket.io.on("reconnect", () => {
 		socket.emit("userJoinRequest", username, handleUserJoinRequestCallback);
 		addNoticeToChat("You're reconnected", Date.now());
 	}
-})
+});
 
 // Listen for when the nice server says hello
 socket.on("hello", () => {

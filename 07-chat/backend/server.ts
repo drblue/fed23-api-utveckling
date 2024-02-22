@@ -30,7 +30,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
  */
 io.on("connection", (socket) => {           // btn.addEventListener("click", (e) => {})
 	// Yay someone connected to me
-	handleConnection(socket);
+	handleConnection(socket, io);
 });
 
 /**
