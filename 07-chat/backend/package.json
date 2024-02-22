@@ -6,7 +6,7 @@
   "scripts": {
     "build": "env-cmd --silent bash scripts/build.sh",
     "build-app": "tsc",
-    "dev": "cross-env DEBUG=chat:* nodemon server.ts",
+    "dev": "cross-env DEBUG=chat:*,socket.io:socket nodemon server.ts",
     "start": "node dist/server.js"
   },
   "prisma": {

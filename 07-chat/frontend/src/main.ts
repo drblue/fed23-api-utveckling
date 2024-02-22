@@ -59,6 +59,27 @@ const addMessageToChat = (msg: ChatMessageData, ownMessage = false) => {
 	messagesEl.appendChild(msgEl);
 }
 
+// Add notice to the chat
+const addNoticeToChat = (msg: string, timestamp: number) => {
+	// Create a new LI element
+	const noticeEl = document.createElement("li");
+
+	// Set class of LI to "notice"
+	noticeEl.classList.add("notice");
+
+	// Get human readable time
+	const time = new Date(timestamp).toLocaleTimeString();
+
+	// Set content of the LI element to the message
+	noticeEl.innerHTML = `
+			<span class="content">${msg}</span>
+			<span class="time">${time}</span>
+		`;
+
+	// Append the LI element to the messages element
+	messagesEl.appendChild(noticeEl);
+}
+
 // Show chat view
 const showChatView = () => {
 	startView.classList.add("hide");
@@ -88,7 +109,7 @@ socket.on("hello", () => {
 
 // Listen for new chat messages
 socket.on("chatMessage", (msg) => {
-	console.log("📨 YAY SOMEONE WROTE SOMETHING!!!!!!!", msg);
+	console.log("📨 New message received:", msg);
 
 	/**
 	 * @todo 1
@@ -97,6 +118,13 @@ socket.on("chatMessage", (msg) => {
 	 * sets the content + styling and appends it to `messagesEl`
 	 */
 	addMessageToChat(msg);
+});
+
+// Listen for when a new user joins the chat
+socket.on("userJoined", (username, timestamp) => {
+	console.log("👶🏻 A new user has joined the chat:", username, timestamp);
+
+	addNoticeToChat(`${username} has joined the chat`, timestamp);
 });
 
 // Get username from form and then show chat
