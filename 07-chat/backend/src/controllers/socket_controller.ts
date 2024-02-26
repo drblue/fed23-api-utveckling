@@ -69,6 +69,10 @@ export const handleConnection = (
 		// Join room `roomId`
 		socket.join(roomId);
 
+		// Create a User in the database and set roomId
+
+		// Retrieve a list of Users for the Room
+
 		// Respond with room info
 		// (here we could also check the username and deny access if it was already in use)
 		callback({
@@ -76,7 +80,7 @@ export const handleConnection = (
 			room: {
 				id: room.id,
 				name: room.name,
-				users: [],
+				users: [],  // Send the user the list of users in the room
 			},
 		});
 
