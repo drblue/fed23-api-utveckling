@@ -12,7 +12,7 @@ export interface ServerToClientEvents {
 export interface ClientToServerEvents {
 	getRoomList: (callback: (rooms: Room[]) => void) => void;
 	sendChatMessage: (msg: ChatMessageData) => void;
-	userJoinRequest: (username: string, callback: (success: boolean) => void) => void;
+	userJoinRequest: (username: string, roomId: string, callback: (success: boolean) => void) => void;
 }
 
 // Message payload

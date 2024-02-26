@@ -12,6 +12,7 @@ console.log("SOCKET_HOST:", SOCKET_HOST);
 // Forms
 const messageEl = document.querySelector("#message") as HTMLInputElement;
 const messageFormEl = document.querySelector("#message-form") as HTMLFormElement;
+const roomSelectEl = document.querySelector("#room") as HTMLSelectElement;
 const usernameFormEl = document.querySelector("#username-form") as HTMLFormElement;
 const usernameInputEl = document.querySelector("#username") as HTMLInputElement;
 
@@ -23,6 +24,7 @@ const chatView = document.querySelector("#chat-wrapper") as HTMLDivElement;
 const startView = document.querySelector("#start") as HTMLDivElement;
 
 // User Details
+let roomId: string | null = null;
 let username: string | null = null;
 
 // Connect to Socket.IO Server
@@ -158,8 +160,8 @@ socket.io.on("reconnect", () => {
 	console.log("🍽️ Reconnected to the server");
 
 	// Emit `userJoinRequest` event, but only if we were in the chat previously
-	if (username) {
-		socket.emit("userJoinRequest", username, handleUserJoinRequestCallback);
+	if (username && roomId) {
+		socket.emit("userJoinRequest", username, roomId, handleUserJoinRequestCallback);
 		addNoticeToChat("You're reconnected", Date.now());
 	}
 });
@@ -193,21 +195,19 @@ socket.on("userJoined", (username, timestamp) => {
 usernameFormEl.addEventListener("submit", (e) => {
 	e.preventDefault();
 
-	// 💇
-	const trimmedUsername = usernameInputEl.value.trim();
+	// Get username and room
+	roomId = roomSelectEl.value;
+	username = usernameInputEl.value.trim();
 
-	// If no username, no join
-	if (!trimmedUsername) {
+	// If no username or room, no join
+	if (!username || !roomId) {
 		return;
 	}
 
-	// Set username
-	username = trimmedUsername;
-
 	// Emit `userJoinRequest`-event to the server and wait for acknowledgement
 	// BEFORE showing the chat view
-	socket.emit("userJoinRequest", username, handleUserJoinRequestCallback);
-	console.log("Emitted 'userJoinRequest' event to server", username);
+	socket.emit("userJoinRequest", username, roomId, handleUserJoinRequestCallback);
+	console.log(`Emitted 'userJoinRequest' event to server, username=${username}, roomId=${roomId}`);
 });
 
 // Send a message to the server when form is submitted
