@@ -2,7 +2,8 @@ import { io, Socket } from "socket.io-client";
 import {
 	ChatMessageData,
 	ClientToServerEvents,
-	ServerToClientEvents
+	ServerToClientEvents,
+	UserJoinResponse
 } from "@shared/types/SocketTypes";
 import "./assets/scss/style.scss";
 
@@ -130,13 +131,17 @@ const showWelcomeView = () => {
 /**
  * Socket handlers
  */
-const handleUserJoinRequestCallback = (success: boolean) => {
-	console.log("Join was successful?", success);
+const handleUserJoinRequestCallback = (response: UserJoinResponse) => {
+	console.log("Join was successful?", response);
 
-	if (!success) {
-		alert("NO ACCESS 4 U");
+	if (!response.success || !response.room) {
+		alert("Could not join room (for some reason)");
 		return;
 	}
+
+	// Update chat view title with room name
+	const chatTitleEl = document.querySelector("#chat-title") as HTMLHeadingElement;
+	chatTitleEl.innerText = response.room.name;
 
 	// Show chat view
 	showChatView();
