@@ -70,8 +70,22 @@ export const handleConnection = (
 		socket.join(roomId);
 
 		// Create a User in the database and set roomId
+		const user = await prisma.user.create({
+			data: {
+				id: socket.id,
+				roomId,
+				username,
+			},
+		});
+		debug("👶🏻 Created user: %o", user);
 
 		// Retrieve a list of Users for the Room
+		const usersInRoom = await prisma.user.findMany({
+			where: {
+				roomId,
+			}
+		});
+		debug("List of users in room %s (%s): %O", room.name, roomId, usersInRoom);
 
 		// Respond with room info
 		// (here we could also check the username and deny access if it was already in use)
@@ -80,7 +94,7 @@ export const handleConnection = (
 			room: {
 				id: room.id,
 				name: room.name,
-				users: [],  // Send the user the list of users in the room
+				users: usersInRoom,  // Send the user the list of users in the room
 			},
 		});
 
