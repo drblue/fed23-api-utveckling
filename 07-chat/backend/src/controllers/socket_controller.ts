@@ -43,7 +43,7 @@ export const handleConnection = (
 		debug('📨 New chat message', socket.id, msg);
 
 		// Broadcast message to everyone connected EXCEPT the sender
-		socket.broadcast.emit("chatMessage", msg);
+		socket.to(msg.roomId).emit("chatMessage", msg);
 	});
 
 	// Listen for a user join request

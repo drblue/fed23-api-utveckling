@@ -218,13 +218,14 @@ messageFormEl.addEventListener("submit", (e) => {
 	const trimmedMessage = messageEl.value.trim();
 
 	// If no message, no send
-	if (!trimmedMessage || !username) {
+	if (!trimmedMessage || !username || !roomId) {
 		return;
 	}
 
 	// Construct message payload
 	const msg: ChatMessageData = {
 		content: trimmedMessage,
+		roomId,
 		timestamp: Date.now(),
 		username,
 	}
