@@ -7,6 +7,7 @@ import {
 	ClientToServerEvents,
 	ServerToClientEvents
 } from "@shared/types/SocketTypes";
+import prisma from "./src/prisma";
 
 // Initialize dotenv so it reads our `.env`-file
 dotenv.config();
@@ -34,9 +35,20 @@ io.on("connection", (socket) => {           // btn.addEventListener("click", (e)
 });
 
 /**
- * Listen on provided port, on all network interfaces.
+ * Delete all users from the database 😈
  */
-httpServer.listen(PORT);
+prisma.user.deleteMany()
+	.then(() => {
+		console.log("🧹 Deleted all the users");
+
+		/**
+		 * Listen on provided port, on all network interfaces.
+		 */
+		httpServer.listen(PORT);
+	})
+	.catch(err => {
+		console.error("🚨 Could not delete all the users 😱", err);
+	});
 
 /**
  * Event listener for HTTP server "error" event.
