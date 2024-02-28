@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.8.1",
+    "@socket.io/admin-ui": "^0.5.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "debug": "^4.3.4",

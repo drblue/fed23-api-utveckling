@@ -2,6 +2,7 @@ import app from "./src/app";
 import http from "http";
 import * as dotenv from "dotenv";
 import { Server } from "socket.io";
+import { instrument } from "@socket.io/admin-ui";
 import { handleConnection } from "./src/controllers/socket_controller";
 import {
 	ClientToServerEvents,
@@ -21,10 +22,27 @@ const PORT = process.env.PORT || 3000;
 const httpServer = http.createServer(app);
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
 	cors: {
-		origin: "*",
+		origin: [
+			"http://localhost:5173",
+			"https://admin.socket.io",
+		],
 		credentials: true,
 	}
 });
+
+/**
+ * Set up Socket.IO Admin (if we have a password)
+ */
+if (process.env.SOCKET_IO_ADMIN_PASSWORD) {
+	console.log("👨🏻‍💻 Setting up Socket.IO Admin");
+	instrument(io, {
+		auth: {
+			type: "basic",
+			username: "admin",
+			password: process.env.SOCKET_IO_ADMIN_PASSWORD,
+		}
+	});
+}
 
 /**
  * Handle incoming Socket.IO connection
