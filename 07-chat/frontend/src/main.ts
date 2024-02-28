@@ -98,7 +98,12 @@ const addNoticeToChat = (msg: string, timestamp?: number) => {
 const updateOnlineUsers = (users: User[]) => {
 	const onlineUsersEl = document.querySelector("#online-users") as HTMLUListElement;
 	onlineUsersEl.innerHTML = users
-		.map(user => `<li>${user.username}</li>`)
+		// .sort(a => a.id === socket.id ? 1 : 0)
+		.map(user =>
+			user.id === socket.id
+				? `<li class="me"><span>&#x1f9b8;</span> ${user.username}</li>`
+				: `<li><span>&#x1f47d;</span> ${user.username}</li>`
+		)
 		.join("");
 }
 
