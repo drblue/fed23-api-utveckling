@@ -128,6 +128,7 @@ export const handleConnection = (
 		/**
 		 * @todo Broadcast a notice to the room that the user has left
 		 */
+		io.to(user.roomId).emit("userLeft", user.username, Date.now());
 
 		/**
 		 * @todo Also broadcast a new list of users in the room

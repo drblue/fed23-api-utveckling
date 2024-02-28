@@ -66,7 +66,11 @@ const addMessageToChat = (msg: ChatMessageData, ownMessage = false) => {
 }
 
 // Add notice to the chat
-const addNoticeToChat = (msg: string, timestamp: number) => {
+const addNoticeToChat = (msg: string, timestamp?: number) => {
+	if (!timestamp) {
+		timestamp = Date.now();
+	}
+
 	// Create a new LI element
 	const noticeEl = document.createElement("li");
 
@@ -167,7 +171,7 @@ socket.io.on("reconnect", () => {
 	// Emit `userJoinRequest` event, but only if we were in the chat previously
 	if (username && roomId) {
 		socket.emit("userJoinRequest", username, roomId, handleUserJoinRequestCallback);
-		addNoticeToChat("You're reconnected", Date.now());
+		addNoticeToChat("You're reconnected");
 	}
 });
 
@@ -194,6 +198,13 @@ socket.on("userJoined", (username, timestamp) => {
 	console.log("👶🏻 A new user has joined the chat:", username, timestamp);
 
 	addNoticeToChat(`${username} has joined the chat`, timestamp);
+});
+
+// Listen for when a new user leaves the chat
+socket.on("userLeft", (username, timestamp) => {
+	console.log("👋🏻 A user has left the chat:", username, timestamp);
+
+	addNoticeToChat(`${username} has left the chat`, timestamp);
 });
 
 // Get username from form and then show chat
