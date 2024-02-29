@@ -32,6 +32,19 @@ let username: string | null = null;
 // Connect to Socket.IO Server
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_HOST);
 
+// Add multiple messages to the chat
+const addMessagesToChat = (msgs: ChatMessageData[]) => {
+	console.log("🍣 Adding messages to chat...")
+
+	// Clear any previous messages from the chat
+	messagesEl.innerHTML = "";
+
+	// Loop over messages and add them to the chat
+	msgs.forEach(msg => {
+		addMessageToChat(msg);
+	});
+}
+
 // Add message to the chat
 const addMessageToChat = (msg: ChatMessageData, ownMessage = false) => {
 	// Create a new LI element
@@ -161,8 +174,15 @@ const handleUserJoinRequestCallback = (response: UserJoinResponse) => {
 	const chatTitleEl = document.querySelector("#chat-title") as HTMLHeadingElement;
 	chatTitleEl.innerText = response.room.name;
 
+	// Add message history to chat
+	console.log("Message history 🧓🏻:", response.room.messages);
+	addMessagesToChat(response.room.messages);
+
 	// Update userlist with users in the room
 	updateOnlineUsers(response.room.users);
+
+	// Let the user know they can begin to argue
+	addNoticeToChat("You're connected, start arguing");
 
 	// Show chat view
 	showChatView();
@@ -188,7 +208,6 @@ socket.io.on("reconnect", () => {
 	// Emit `userJoinRequest` event, but only if we were in the chat previously
 	if (username && roomId) {
 		socket.emit("userJoinRequest", username, roomId, handleUserJoinRequestCallback);
-		addNoticeToChat("You're reconnected");
 	}
 });
 

@@ -26,12 +26,13 @@ export interface ChatMessageData {
 }
 
 // Room with Users
-export interface RoomWithUsers extends Room {
+export interface RoomInfo extends Room {
+	messages: ChatMessageData[];
 	users: User[];
 }
 
 // User Join Response
 export interface UserJoinResponse {
 	success: boolean;
-	room: RoomWithUsers | null;
+	room: RoomInfo | null;
 }

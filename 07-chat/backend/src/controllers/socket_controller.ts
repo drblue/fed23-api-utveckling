@@ -7,7 +7,7 @@ import { ClientToServerEvents, ServerToClientEvents } from "@shared/types/Socket
 import prisma from "../prisma";
 import { createUser, deleteUser, getUser, getUsersInRoom } from "../services/UserService";
 import { getRoom, getRooms } from "../services/RoomService";
-import { createMessage } from "../services/MessageService";
+import { createMessage, getLatestMessages } from "../services/MessageService";
 
 // Create a new debug instance
 const debug = Debug("chat:socket_controller");
@@ -80,6 +80,9 @@ export const handleConnection = (
 		// Retrieve a list of Users for the Room
 		const usersInRoom = await getUsersInRoom(roomId);
 
+		// Retrieve messages sent to the Room
+		const messages = await getLatestMessages(roomId);
+
 		// Respond with room info
 		// (here we could also check the username and deny access if it was already in use)
 		callback({
@@ -87,6 +90,7 @@ export const handleConnection = (
 			room: {
 				id: room.id,
 				name: room.name,
+				messages,
 				users: usersInRoom,  // Send the user the list of users in the room
 			},
 		});
