@@ -8,15 +8,22 @@ import prisma from "../prisma";
  * Get latest messages sent to a room
  *
  * @param roomId ID of room
+ * @param maxAge Max age in seconds
  */
-export const getLatestMessages = (roomId: string) => {
+export const getLatestMessages = (roomId: string, maxAge = 3600) => {
+	const past = Date.now() - maxAge * 1000;
+
 	return prisma.message.findMany({
 		where: {
 			roomId,
+			timestamp: {
+				gte: past,
+			},
 		},
 		orderBy: {
 			timestamp: "asc",
 		},
+		take: -100,
 	});
 }
 
