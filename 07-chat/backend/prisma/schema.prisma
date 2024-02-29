@@ -7,9 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Message {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  roomId    String      @db.ObjectId
+  room      Room        @relation(fields: [roomId], references: [id])
+  timestamp Int
+  username  String
+}
+
 model Room {
   id        String      @id @default(auto()) @map("_id") @db.ObjectId
   name      String      @unique
+  messages  Message[]
   users     User[]
 }
 
