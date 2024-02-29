@@ -7,6 +7,7 @@ import { ClientToServerEvents, ServerToClientEvents } from "@shared/types/Socket
 import prisma from "../prisma";
 import { createUser, deleteUser, getUser, getUsersInRoom } from "../services/UserService";
 import { getRoom, getRooms } from "../services/RoomService";
+import { createMessage } from "../services/MessageService";
 
 // Create a new debug instance
 const debug = Debug("chat:socket_controller");
@@ -37,11 +38,16 @@ export const handleConnection = (
 	});
 
 	// Listen for incoming chat messages
-	socket.on("sendChatMessage", (msg) => {
+	socket.on("sendChatMessage", async (msg) => {
 		debug('📨 New chat message', socket.id, msg);
 
 		// Broadcast message to everyone connected EXCEPT the sender
 		socket.to(msg.roomId).emit("chatMessage", msg);
+		debug("📢 Broadcasted chat message");
+
+		// Save message to db
+		await createMessage(msg);
+		debug("🏊‍♀️ Saved chat message");
 	});
 
 	// Listen for a user join request
