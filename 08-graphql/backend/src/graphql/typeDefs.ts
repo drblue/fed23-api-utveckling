@@ -17,6 +17,7 @@ const typeDefs = `#graphql
 		title: String!
 		pages: Int!
 		publisherId: Int
+		publisher: Publisher
 	}
 
 	type Publisher {
