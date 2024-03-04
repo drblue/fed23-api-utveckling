@@ -23,6 +23,7 @@ const typeDefs = `#graphql
 	type Publisher {
 		id: Int!
 		name: String!
+		books: [Book!]
 	}
 
 	# The "Query" type is special: it lists all of the available queries that
