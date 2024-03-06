@@ -116,6 +116,28 @@ const resolvers = {
 			});
 		},
 
+		// Book <> Author relation
+		addAuthorToBook: (_parent, args: { bookId: number, authorId: number }) => {
+			return prisma.book.update({
+				where: { id: args.bookId },
+				data: {
+					authors: {
+						connect: { id: args.authorId },
+					},
+				},
+			});
+		},
+		removeAuthorFromBook: (_parent, args: { bookId: number, authorId: number }) => {
+			return prisma.book.update({
+				where: { id: args.bookId },
+				data: {
+					authors: {
+						disconnect: { id: args.authorId },
+					},
+				},
+			});
+		},
+
 		// Publisher create, update and delete
 		createPublisher: (_parent, args: { data: CreatePublisher }) => {
 			return prisma.publisher.create({
