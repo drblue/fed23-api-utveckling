@@ -1,0 +1,27 @@
+#users {
+	flex-basis: 20%;
+
+	h2 {
+		background-color: $heading-bg-color;
+		padding: 0.5rem 0.75rem;
+		color: white;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0.5rem 0.75rem;
+		list-style: none;
+		overflow-y: scroll;
+
+		li {
+			&.me {
+				font-weight: bold;
+			}
+
+			.fa-solid {
+				color: $icon-color;
+				padding-right: 0.125em;
+			}
+		}
+	}
+}

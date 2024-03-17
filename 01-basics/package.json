@@ -1,0 +1,16 @@
+{
+  "name": "01-basics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "02-calc.js",
+  "scripts": {
+    "dev": "nodemon 02-calc.js",
+    "start": "node 02-calc.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "WTFPL",
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
